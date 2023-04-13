@@ -1,6 +1,6 @@
 baseURL = 'http://example.org/'
 languageCode = 'en-us'
-title = 'Snaplii Doc'
+title = 'Snaplii Developer Docs'
 
 # Change the default theme to be use when building the site with Hugo
 theme = "hugo-theme-relearn"
@@ -10,6 +10,7 @@ theme = "hugo-theme-relearn"
 home = [ "HTML", "RSS", "SEARCH"]
 
 [params]
+themeVariant="relearn-bright"
 
 showVisitedLinks = true
 # If set to false, load the Swagger module on every page regardless if a Swagger shortcode is present

@@ -1,0 +1,563 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Open Gateway",
+    "version": "last"
+  },
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "SDK用接口",
+      "description": null
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/sdk/sendVerifyCode": {
+      "post": {
+        "tags": [
+          "SDK用接口"
+        ],
+        "summary": "发送验证码",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "root",
+            "in": "body",
+            "schema": {
+              "$schema": "http://json-schema.org/draft-04/schema#",
+              "type": "object",
+              "properties": {
+                "sdkVersion": {
+                  "type": "string"
+                },
+                "appVersion": {
+                  "type": "string"
+                },
+                "osVersion": {
+                  "type": "string"
+                },
+                "deviceId": {
+                  "type": "string"
+                },
+                "appId": {
+                  "type": "string"
+                },
+                "platform": {
+                  "type": "string"
+                },
+                "fingerprint": {
+                  "type": "string"
+                },
+                "bundleId": {
+                  "type": "string"
+                },
+                "location": {
+                  "type": "string"
+                },
+                "lang": {
+                  "type": "string",
+                  "title": "语言",
+                  "description": "en|zh"
+                },
+                "pt": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "sdkVersion",
+                "appVersion",
+                "osVersion",
+                "deviceId",
+                "appId",
+                "platform",
+                "pt",
+                "email"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "title": "title",
+              "properties": {
+                "code": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "code"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "/sdk/payment": {
+      "post": {
+        "tags": [
+          "SDK用接口"
+        ],
+        "summary": "支付订单",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "root",
+            "in": "body",
+            "schema": {
+              "$schema": "http://json-schema.org/draft-04/schema#",
+              "type": "object",
+              "properties": {
+                "sdkVersion": {
+                  "type": "string"
+                },
+                "appVersion": {
+                  "type": "string"
+                },
+                "osVersion": {
+                  "type": "string"
+                },
+                "deviceId": {
+                  "type": "string"
+                },
+                "appId": {
+                  "type": "string"
+                },
+                "platform": {
+                  "type": "string",
+                  "description": "android/iOS"
+                },
+                "fingerprint": {
+                  "type": "string",
+                  "description": "android app证书指纹"
+                },
+                "bundleId": {
+                  "type": "string",
+                  "description": "iOS bundleId"
+                },
+                "location": {
+                  "type": "string",
+                  "description": "位置经纬度"
+                },
+                "lang": {
+                  "type": "string",
+                  "title": "语言",
+                  "description": "en|zh"
+                },
+                "orderStr": {
+                  "type": "string",
+                  "description": "带签名的订单信息"
+                },
+                "aut": {
+                  "type": "string",
+                  "description": "AUT"
+                },
+                "email": {
+                  "type": "string"
+                },
+                "verifyCode": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "sdkVersion",
+                "appVersion",
+                "osVersion",
+                "deviceId",
+                "appId",
+                "platform",
+                "orderStr",
+                "aut"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "title": "title",
+              "properties": {
+                "code": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "transStatus": {
+                  "type": "string"
+                },
+                "transNo": {
+                  "type": "string"
+                },
+                "payAmount": {
+                  "type": "string"
+                },
+                "payTime": {
+                  "type": "string",
+                  "title": "支付时间UTC",
+                  "description": "支付时间UTC。格式为 yyyy-MM-dd HH:mm:ss。"
+                }
+              },
+              "required": [
+                "code",
+                "transStatus",
+                "transNo",
+                "payAmount",
+                "payTime"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "/sdk/claApply": {
+      "post": {
+        "tags": [
+          "SDK用接口"
+        ],
+        "summary": "申请开通信用付credit limit assignment",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "root",
+            "in": "body",
+            "schema": {
+              "$schema": "http://json-schema.org/draft-04/schema#",
+              "type": "object",
+              "properties": {
+                "sdkVersion": {
+                  "type": "string"
+                },
+                "appVersion": {
+                  "type": "string"
+                },
+                "osVersion": {
+                  "type": "string"
+                },
+                "deviceId": {
+                  "type": "string"
+                },
+                "appId": {
+                  "type": "string"
+                },
+                "platform": {
+                  "type": "string",
+                  "description": "android/iOS"
+                },
+                "fingerprint": {
+                  "type": "string",
+                  "description": "android app证书指纹"
+                },
+                "bundleId": {
+                  "type": "string",
+                  "description": "iOS bundleId"
+                },
+                "location": {
+                  "type": "string",
+                  "description": "位置经纬度"
+                },
+                "lang": {
+                  "type": "string",
+                  "title": "语言",
+                  "description": "en|zh"
+                },
+                "pt": {
+                  "type": "string"
+                },
+                "otp": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "string"
+                },
+                "verifyCode": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "sdkVersion",
+                "appVersion",
+                "osVersion",
+                "deviceId",
+                "appId",
+                "platform",
+                "pt",
+                "otp",
+                "email",
+                "verifyCode"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "title": "title",
+              "properties": {
+                "code": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "code"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "/sdk/login": {
+      "post": {
+        "tags": [
+          "SDK用接口"
+        ],
+        "summary": "登录",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "root",
+            "in": "body",
+            "schema": {
+              "$schema": "http://json-schema.org/draft-04/schema#",
+              "type": "object",
+              "properties": {
+                "sdkVersion": {
+                  "type": "string"
+                },
+                "appVersion": {
+                  "type": "string"
+                },
+                "osVersion": {
+                  "type": "string"
+                },
+                "deviceId": {
+                  "type": "string"
+                },
+                "appId": {
+                  "type": "string"
+                },
+                "platform": {
+                  "type": "string",
+                  "description": "android/iOS"
+                },
+                "fingerprint": {
+                  "type": "string",
+                  "description": "android app证书指纹"
+                },
+                "bundleId": {
+                  "type": "string",
+                  "description": "iOS bundleId"
+                },
+                "location": {
+                  "type": "string",
+                  "description": "位置经纬度"
+                },
+                "lang": {
+                  "type": "string",
+                  "title": "语言",
+                  "description": "en|zh"
+                },
+                "pt": {
+                  "type": "string"
+                },
+                "otp": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "string"
+                },
+                "verifyCode": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "sdkVersion",
+                "appVersion",
+                "osVersion",
+                "deviceId",
+                "appId",
+                "platform",
+                "pt",
+                "otp"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "title": "title",
+              "properties": {
+                "code": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "aut": {
+                  "type": "string",
+                  "title": "AUT"
+                }
+              },
+              "required": [
+                "code"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "/sdk/getAdsText": {
+      "post": {
+        "tags": [
+          "SDK用接口"
+        ],
+        "summary": "获取广告位展示文案",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "root",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "title": "title",
+              "properties": {
+                "sdkVersion": {
+                  "type": "string"
+                },
+                "appVersion": {
+                  "type": "string"
+                },
+                "osVersion": {
+                  "type": "string"
+                },
+                "deviceId": {
+                  "type": "string"
+                },
+                "appId": {
+                  "type": "string"
+                },
+                "platform": {
+                  "type": "string",
+                  "description": "android/iOS"
+                },
+                "fingerprint": {
+                  "type": "string",
+                  "description": "android app证书指纹"
+                },
+                "bundleId": {
+                  "type": "string",
+                  "description": "iOS bundleId"
+                },
+                "location": {
+                  "type": "string",
+                  "description": "位置经纬度"
+                },
+                "lang": {
+                  "type": "string",
+                  "title": "语言",
+                  "description": "en|zh"
+                }
+              },
+              "required": [
+                "sdkVersion",
+                "appVersion",
+                "appId",
+                "platform",
+                "osVersion",
+                "deviceId"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "title": "title",
+              "properties": {
+                "en": {
+                  "type": "object",
+                  "properties": {
+                    "contentNoMember": {
+                      "type": "string"
+                    },
+                    "contentMember": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "contentNoMember",
+                    "contentMember"
+                  ]
+                },
+                "zh": {
+                  "type": "object",
+                  "properties": {
+                    "contentNoMember": {
+                      "type": "string"
+                    },
+                    "contentMember": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "contentNoMember",
+                    "contentMember"
+                  ]
+                },
+                "code": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "en",
+                "zh",
+                "code"
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}
