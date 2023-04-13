@@ -1,21 +1,28 @@
-baseURL = 'http://example.org/'
-languageCode = 'en-us'
+#baseURL = 'https://developer.snaplii.io/'
+defaultContentLanguage = 'cn'
 title = 'Snaplii Developer Docs'
 
 # Change the default theme to be use when building the site with Hugo
 theme = "hugo-theme-relearn"
+
+[Languages]
+  [Languages.cn]
+    title = "Snaplii开发者文档"
+    weight = 1
+    languageName = "中文"
+    landingPageName = "<i class='fas fa-home'></i> Home"
 
 # For search functionality
 [outputs]
 home = [ "HTML", "RSS", "SEARCH"]
 
 [params]
-themeVariant="relearn-bright"
+# themeVariant="relearn-bright"
 
 showVisitedLinks = true
 # If set to false, load the Swagger module on every page regardless if a Swagger shortcode is present
-disableSwagger = true
+#disableSwagger = true
 # Specifies the remote location of the RapiDoc js
-customSwaggerURL = "https://unpkg.com/rapidoc/dist/rapidoc-min.js"
+#customSwaggerURL = "https://unpkg.com/rapidoc/dist/rapidoc-min.js"
 # Initialization parameter for Swagger, see RapiDoc documentation
-swaggerInitialize = "{ \"theme\": \"light\" }"
+#swaggerInitialize = "{ \"theme\": \"light\" }"
