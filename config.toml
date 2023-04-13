@@ -1,0 +1,20 @@
+baseURL = 'http://example.org/'
+languageCode = 'en-us'
+title = 'Snaplii Doc'
+
+# Change the default theme to be use when building the site with Hugo
+theme = "hugo-theme-relearn"
+
+# For search functionality
+[outputs]
+home = [ "HTML", "RSS", "SEARCH"]
+
+[params]
+
+showVisitedLinks = true
+# If set to false, load the Swagger module on every page regardless if a Swagger shortcode is present
+disableSwagger = true
+# Specifies the remote location of the RapiDoc js
+customSwaggerURL = "https://unpkg.com/rapidoc/dist/rapidoc-min.js"
+# Initialization parameter for Swagger, see RapiDoc documentation
+swaggerInitialize = "{ \"theme\": \"light\" }"
