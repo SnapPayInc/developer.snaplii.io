@@ -1,1 +1,1 @@
-# open.snaplii.io
+# developer.snaplii.io
