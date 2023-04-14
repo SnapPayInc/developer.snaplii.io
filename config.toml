@@ -17,12 +17,16 @@ theme = "hugo-theme-relearn"
 home = [ "HTML", "RSS", "SEARCH"]
 
 [params]
-# themeVariant="relearn-bright"
-
+themeVariant="snaplii"
+alwaysopen = true
+collapsibleMenu = true
+mermaidInitialize = "{ \"securityLevel\": \"loose\" }"
+mermaidZoom = true
+# disableSearch = true
 showVisitedLinks = true
 # If set to false, load the Swagger module on every page regardless if a Swagger shortcode is present
 #disableSwagger = true
 # Specifies the remote location of the RapiDoc js
 #customSwaggerURL = "https://unpkg.com/rapidoc/dist/rapidoc-min.js"
 # Initialization parameter for Swagger, see RapiDoc documentation
-#swaggerInitialize = "{ \"theme\": \"light\" }"
+swaggerInitialize = "{ \"theme\": \"light\" }"
