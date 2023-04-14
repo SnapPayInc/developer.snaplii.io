@@ -1,4 +1,4 @@
-#baseURL = 'https://developer.snaplii.io/'
+baseURL = 'https://developer.snaplii.io/'
 defaultContentLanguage = 'cn'
 title = 'Snaplii Developer Docs'
 
