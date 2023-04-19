@@ -50,9 +50,7 @@ allprojects {
 repositories {  
 // 添加下方的内容  
 mavenCentral()  
-// jcenter() 等其它仓库
-
-`maven { url 'https://mvn.snaplii.com/content/repositories/releases/' }`  
+jcenter() 等其它仓库  
 }  
 }
 
@@ -81,41 +79,30 @@ android.permission.ACCESS\_COARSE\_LOCATION
 android.permission.ACCESS\_FINE\_LOCATION  
 android.permission.CAMERA
 
+android.permission.ACCESS\_WIFI\_STATE
+
 **步骤4：初始化SDK Initialize SDK**
 -----------------------------
 
 **建议在App冷启动后调用SDK初始化方法.**
 
 ```java
-SnapliiSDK.initSdk(AppApplication.getApp(), appId, SnapliiSDK.LAN_ZH);
+SnapliiSDK.initSdk(application, appId, SnapliiSDK.LAN_ZH, new OTPCallback() {
+    @Override    
+    public Observable<String> getOtp() {
+    
+    }
+});
 ```
 
-**步骤5：获取广告位展示文案**
------------------
-
-```java
-SnapliiSDK.getAdsText();
-```
-
-**步骤6：<初始配置> configurations**
------------------------------
-
-配置语言
-
-`SnapliiSDK.setLanguage(SnapliiSDK.LAN_EN);`
-
-输出debug日志
-
-`SnapliiSDK.setDebug(true);`
-
-**步骤7: 获取用户是否开通了Snaplii信用付**
+**步骤5: 获取用户是否开通了Snaplii信用付**
 ----------------------------
 
 ```java
 boolean ret = SnapliiSDK.hasSnapliiCredit(String pt);
 ```
 
-**步骤8: 开通信用付 Initialize SnapliiCredit user**
+**步骤6: 开通信用付 Initialize SnapliiCredit user**
 --------------------------------------------
 
 开通信用付
@@ -134,7 +121,7 @@ SnapliiSDK.initSnapliiCredit(activity, pt, otp, new ICCallback() {
 });
 ```
 
-**步骤9: 支付 Start a Payment**
+**步骤7: 支付 Start a Payment**
 ---------------------------
 
 ```java
@@ -151,29 +138,53 @@ SnapliiSDK.payment(activity, orderStr, new PayResultCallback() {
 });
 ```
 
-**步骤10：编译设置**
--------------
+**\[可选配置接口\] configurations**
+-----------------------------
 
-**步骤11：调试**
------------
+**1.配置语言:**
+
+**SnapliiSDK.setLanguage(SnapliiSDK.LAN\_EN);**
+
+**2.输出logcat debug日志:**
+
+**SnapliiSDK.setDebug(true);**
+
+**3.获取sdk版本:**
+
+**SnapliiSDK.getVersion();**
 
 五.SDK接口说明
 ---------
 
 *   初始化SDK  
     商户APP工程中引入依赖后，调用API前，需要先向注册您的AppId，代码如下：  
-    **void SnapliiSdk.initSdk(Application applicationContext, String appId, String lang);**
+    **void SnapliiSdk.initSdk(Application applicationContext, String appId, String lang, OTPCallback callback);**
     
-| 参数                 | 类型          | 说明             |
-|--------------------|-------------|----------------|
-| applicationContext | Application | Application上下文 |
-| appId              | String      | 后台注册的App标识     |
-| lang               | String      | 语言设置zh/en      |
 
+```java
+public interface OTPCallback() {
+    @Override    
+    public Observable<String> getOtp() {
+    
+    }
+});
+```
+
+| 参数                 | 类型          | 说明                |
+|--------------------|-------------|-------------------|
+| applicationContext | Application | Application上下文    |
+| appId              | String      | 后台注册的App标识        |
+| lang               | String      | 语言设置zh/en         |
+| callback           | OTPCallback | sdk请求app更新otp回调方法 |
+
+| OTPCallback返回值 | 类型                       | 说明                            |
+|----------------|--------------------------|-------------------------------|
+| return         | Observable&lt;String&gt; | app返回 io.reactivex.Observable |
 
 *   查询信用付账号开通信息  
     **boolean SnapliiSdk.hasSnapliiCredit(String pt);**
     
+
 | 参数 | 类型     | 说明             |
 |----|--------|----------------|
 | pt | String | personal token |
@@ -183,19 +194,6 @@ SnapliiSDK.payment(activity, orderStr, new PayResultCallback() {
 |--------|---------|---------------------|
 | return | boolean | true: 已开通false: 未开通 |
 
-
-*   获取营销字段  
-    **String SnapliiSdk.getAdsText();**
-    
-
-| 参数      | 类型     | 说明                |
-|---------|--------|-------------------|
-| adsInfo | String | 信用付营销文案信息，Json结构. |
-
-
-| 返回值    | 类型     | 说明           |
-|--------|--------|--------------|
-| return | String | 广告中英文Json字符串 |
 
 *   注册开通信用付
     
@@ -222,7 +220,7 @@ public interface ICCallback {
 | errorMsg  | String     | 错误描述              |
 
 *   支付  
-    **void SnapliiSdk.payment(String orderStr, PayResultCallback callback);**
+    **void SnapliiSdk.payment(String orderStr, String pt, PayResultCallback callback);**
     
 
 ```java
@@ -238,6 +236,30 @@ public interface PayResultCallback {
 | 参数        | 类型                | 说明                |
 |-----------|-------------------|-------------------|
 | ordStr    | String            | 信用付支付order string |
+| pt        | String            | personal token    |
+| callback  | PayResultCallback | 支付结果的回调           |
+| errorCode | int               | 查询错误码             |
+| errorMsg  | String            | 查询错误描述            |
+
+*   支付 (当支付接口返回 “**session 已过期**” 错误时调用)  
+    **void SnapliiSdk.payment(String orderStr, String pt, String otp, PayResultCallback callback);**
+    
+
+```java
+public interface PayResultCallback {
+
+    void onSuccess();
+
+    void onError(int errorCode, int errorMsg);
+
+}
+```
+
+| 参数        | 类型                | 说明                |
+|-----------|-------------------|-------------------|
+| ordStr    | String            | 信用付支付order string |
+| pt        | String            | personal token    |
+| otp       | String            | one time password |
 | callback  | PayResultCallback | 支付结果的回调           |
 | errorCode | int               | 查询错误码             |
 | errorMsg  | String            | 查询错误描述            |
@@ -251,7 +273,6 @@ public interface PayResultCallback {
 |-------|---------|--------------------------------------|
 | value | boolean | SnapliiSDK.EN = 0;SnapliiSDK.CN = 1; |
 
-
 *   打开debug日志
     
 
@@ -260,7 +281,6 @@ public interface PayResultCallback {
 | 参数    | 类型      | 说明             |
 |-------|---------|----------------|
 | value | boolean | sdk是否输出debug日志 |
-
 
 *   获取Sdk版本号
     
@@ -271,25 +291,23 @@ public interface PayResultCallback {
 |-----|--------|------------------|
 | ret | String | 获取Sdk版本号，例如1.0.0 |
 
+六.错误码示例（最终以Snaplii后端定义为准）
+-------------------------
 
-六.错误码示例
--------
-
-| 错误码  | 说明     |
-|------|--------|
-| 1001 | 签名错误   |
-| 1002 | 参数错误   |
-| 1003 | app未注册 |
-| 1004 | 订单错误   |
-| 1005 | 支付失败   |
-| 1006 | 风控错误   |
-| 1007 | pt无效   |
-| 1008 | otp无效  |
+| 错误码  | 说明          |
+|------|-------------|
+| 1001 | 签名错误        |
+| 1002 | 参数错误        |
+| 1003 | app未注册      |
+| 1004 | 订单错误        |
+| 1005 | 支付失败        |
+| 1006 | 风控错误        |
+| 1007 | pt无效        |
+| 1008 | otp无效       |
+| 1009 | 信用付账号不存在    |
+| 1010 | session 已过期 |
 
 七.测试和发布
 -------
 
-在你的应用发布之前，你需要仔细测试集成的支付 SDK 功能，确保支付过程流畅且无错误。一旦你确信支付功能已经正常工作，你就可以将你的应用发布到市场上供用户使用。
-
-**八.性能说明**
-----------
+在应用发布之前，需要仔细测试集成的支付 SDK 功能，确保支付过程流畅且无错误。一旦确信支付功能已经正常工作，就可以将你的应用发布到市场上供用户使用。
