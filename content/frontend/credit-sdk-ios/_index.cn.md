@@ -38,19 +38,19 @@ pod 'SnapliiSDK-iOS'
 |Privacy - Location When In Use Usage Description|定位权限|
 ## **步骤4：初始化SDK Initialize SDK**
 **建议在App冷启动后调用SDK初始化方法.**
-```
+```objective-c
 [[SnapliiSDK defaultService] initAppId:@"后台注册的App标识" language:@"语言" 
 OTPCallback^(id data) {
 
 }];
 ```
 ## **步骤5: 获取用户是否开通了Snaplii信用付**
-```
+```objective-c
 BOOL result = [[SnapliiSDK defaultService] hasSnapliiCredit:@"personal token"];
 ```
 ## **步骤6: 开通信用付 Initialize SnapliiCredit user**
 开通信用付
-```
+```objective-c
 [[SnapliiSDK defaultService] initSnapliiCredit:@"personal token" optStr:
 @"one time password" callback:^(NSDictionary *resultDic) {
 //返回成功或失败的错误码
@@ -59,7 +59,7 @@ BOOL result = [[SnapliiSDK defaultService] hasSnapliiCredit:@"personal token"];
 }];
 ```
 ## **步骤7: 支付 Start a Payment**
-```
+```objective-c
 [[SnapliiSDK defaultService] payment:@"orderStr" callback:^(NSString *result) {
 //返回成功或失败的错误码
     NSLog(@"reslut = %@",result);
