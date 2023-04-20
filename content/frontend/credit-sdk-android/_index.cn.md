@@ -46,6 +46,7 @@ orderStr: 订单order String
 
 在主项目的 build.gradle 中，添加以下内容：  
 注意：只有"mavenCentral"的仓库可以同步到依赖。如果发现获取不到依赖库，请确认下获取的链接是否有问题。可以尝试将mavenCentral() 放到所有依赖库的第一个来保证优先从这个仓库获取依赖。  
+```
 allprojects {  
 repositories {  
 // 添加下方的内容  
@@ -66,13 +67,14 @@ dependencies {
 api 'com.snaplii.sdk:snapliisdk-android:1.0.0'  
 // 其它依赖项  
 }
-
+```
 步骤3:权限配置
 --------
 
 配置 AndroidManifest.xml 文件中的运行权限
 
 为正常完成良好的支付流程体验以及支付风控需要，Snaplii SDK 需要使用以下权限：  
+```
 android.permission.INTERNET  
 android.permission.ACCESS\_NETWORK\_STATE  
 android.permission.ACCESS\_COARSE\_LOCATION  
@@ -80,7 +82,7 @@ android.permission.ACCESS\_FINE\_LOCATION
 android.permission.CAMERA
 
 android.permission.ACCESS\_WIFI\_STATE
-
+```
 **步骤4：初始化SDK Initialize SDK**
 -----------------------------
 
