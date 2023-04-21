@@ -33,16 +33,27 @@ pod 'SnapliiSDK-iOS'
 ## **步骤3:权限配置**
 为正常完成良好的支付流程体验以及支付风控需要,info.plist中的开启以下的权限
 
-|Privacy - Camera Usage Description|相机权限|
-| :- | :- |
-|Privacy - Location When In Use Usage Description|定位权限|
+|Privacy - Camera Usage Description|相机权限|App needs your consent to access the camera to scan the card information. If it is forbidden, it will not be able to obtain the card information
+| :- | :- | :- |
+|Privacy - Location When In Use Usage Description|定位权限|App needs your geographic location to show you local promotions
 ## **步骤4：初始化SDK Initialize SDK**
 **建议在App冷启动后调用SDK初始化方法.**
 ```objective-c
-[[SnapliiSDK defaultService] initAppId:@"后台注册的App标识" language:@"语言" 
-OTPCallback^(id data) {
+__weak typeof(self) weakSelf = self;
 
-}];
+[[SnapliiSDK defaultService] initAppId:@"后台注册的App标识" language:@"语言" 
+Callback:^(CompletionBlock  _Nonnull responseCallback) {
+
+        responseCallback([weakSelf getUserOTP]);
+ }];
+ 
+ 
+ #pragma mark ---- 获取OTP
+ -(NSString *)getUserOTP{
+    //网络请求获取OTP
+    
+    return @"OTP";
+}
 ```
 ## **步骤5: 获取用户是否开通了Snaplii信用付**
 ```objective-c
