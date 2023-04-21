@@ -9,8 +9,8 @@
     --MAIN-TEXT-color: #323232; /* Color of text by default */
     --MAIN-TITLES-TEXT-color: #5e5e5e; /* Color of titles h2-h3-h4-h5-h6 */
     --MAIN-TITLES-H1-color: #222222; /* text color of h1 titles */
-    --MAIN-LINK-color: #5064CE; /* Color of links */
-    --MAIN-LINK-HOVER-color: #167ad0; /* Color of hovered links */
+    --MAIN-LINK-color: #0D1438; /* Color of links */
+    --MAIN-LINK-HOVER-color: #0D1438; /* Color of hovered links */
     --MAIN-BG-color: #ffffff; /* color of text by default */
 
     /* adjusted to base16-snazzy chroma style */
@@ -22,24 +22,24 @@
     --CODE-INLINE-BG-color: #fffae9; /* color for inline code background */
     --CODE-INLINE-BORDER-color: #f8e8c8; /* color of inline code border */
 
-    --MENU-HOME-LINK-color: #2d363f; /* Color of the home button text */
-    --MENU-HOME-LINK-HOVER-color: #000000; /* Color of the hovered home button text */
+    --MENU-HOME-LINK-color: #FFFFFF; /* Color of the home button text */
+    --MENU-HOME-LINK-HOVER-color: #e6e6e6; /* Color of the hovered home button text */
 
-    --MENU-HEADER-BG-color: #5064CE; /* Background color of menu header */
-    --MENU-HEADER-BORDER-color: #ccc; /*Color of menu header border */
+    --MENU-HEADER-BG-color: #0D1438; /* Background color of menu header */
+    --MENU-HEADER-BORDER-color: #0D1438; /*Color of menu header border */
 
-    --MENU-SEARCH-color: #5064CE; /* Color of search field text */
-    --MENU-SEARCH-BG-color: #ccc; /* Search field background color (by default borders + icons) */
-    --MENU-SEARCH-BORDER-color: #999; /* Override search field border color */
+    --MENU-SEARCH-color: #0D1438; /* Color of search field text */
+    --MENU-SEARCH-BG-color: #F0F0F1; /* Search field background color (by default borders + icons) */
+    --MENU-SEARCH-BORDER-color: #F0F0F1; /* Override search field border color */
 
-    --MENU-SECTIONS-ACTIVE-BG-color: #20272b; /* Background color of the active section and its children */
-    --MENU-SECTIONS-BG-color: #252c31; /* Background color of other sections */
-    --MENU-SECTIONS-LINK-color: #ccc; /* Color of links in menu */
+    --MENU-SECTIONS-ACTIVE-BG-color: #0D1438; /* Background color of the active section and its children */
+    --MENU-SECTIONS-BG-color: #0D1438; /* Background color of other sections */
+    --MENU-SECTIONS-LINK-color: #FCFDFF; /* Color of links in menu */
     --MENU-SECTIONS-LINK-HOVER-color: #e6e6e6;  /* Color of links in menu, when hovered */
-    --MENU-SECTION-ACTIVE-CATEGORY-color: #777; /* Color of active category text */
-    --MENU-SECTION-ACTIVE-CATEGORY-BG-color: #fff; /* Color of background for the active category (only) */
+    --MENU-SECTION-ACTIVE-CATEGORY-color: #0D1438; /* Color of active category text */
+    --MENU-SECTION-ACTIVE-CATEGORY-BG-color: #C6CCFD; /* Color of background for the active category (only) */
 
-    --MENU-VISITED-color: #5064CE; /* Color of 'page visited' icons in menu */
+    --MENU-VISITED-color: #0D1438; /* Color of 'page visited' icons in menu */
     --MENU-SECTION-HR-color: #20272b; /* Color of <hr> separator in menu */
 
     /* base styling for boxes */
