@@ -30,11 +30,21 @@ SDK: Snaplii信用付sdk
 
 PT: Personal Token
 
-OTP: One Time Password
+AppId: App在Snaplii注册的应用标识ID， 由Snaplii分配给第三方。
 
-AppId: App在Snaplii注册的应用标识ID
+App Secret: 第三方接入方应用secret，由Snaplii分配。
 
-orderStr: 订单order String
+OTP: One Time Password。基于时间的TOTP，用app secret转为base32的字符串后作为key。
+
+orderStr: 订单order String，其格式类似为
+
+    {
+		"outterOrderNo":"a275702d001746caace8b40b25a09df6",  
+		"orderAmount":"0.01",  
+		"personalToken":"9077777766",  
+		"sign":"+LtDS7AFES\/k3ttx8yd46TSMlQM="  
+    }
+其中“sign"为签名，签名方式请参照"信用付SDK服务端接入文档"
 
 步骤1: **partner后端Server准备**
 --------------------------
