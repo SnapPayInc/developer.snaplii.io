@@ -46,6 +46,15 @@ orderStr: 订单order String，其格式类似为
     }
 其中“sign"为签名，签名方式请参照"信用付SDK服务端接入文档"
 
+## 四. OTP生成算法
+One time passcode是采用标准的基于时间的TOTP算法，目前设置的有效时间跨度为1分钟。OTP的密钥为app secret + personal token拼接而成。密钥算法为"HmacSHA1"。Python算法可参照：
+
+    secret_key= secret + pt
+    key_str = base64.b32encode(secret_key.encode('utf-8')).decode("utf-8")
+    pyotp.TOTP(key_str, digest="sha1", interval=60).now()
+其他语言的实现可参照对应的实现文档
+
+
 步骤1: **partner后端Server准备**
 --------------------------
 
