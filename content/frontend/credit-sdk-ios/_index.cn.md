@@ -1,3 +1,4 @@
+
 ---
 title: "信用付iOS SDK接入文档"
 date: 2023-04-13T15:13:38-04:00
@@ -11,19 +12,30 @@ Snaplii信用付SDK
 ## **三.名词解释 Glossary**
 Partner: 第三方接入方
 
-SDK: Snaplii信用付sdk 
+SDK: Snaplii信用付sdk 
 
 用户: 使用接入方宿主app的用户
 
 信用付: Snaplii提供的支付产品
 
-PT: Personal Token
+PT: Personal Token。代表接入方的一个用户ID，推荐使用接入方用户ID的一个hash值，不同的用户要确保value不一样。
 
-OTP: One Time Password
+AppId: App在Snaplii注册的应用标识ID， 由Snaplii分配给第三方。
 
-AppId: App在Snaplii注册的应用标识ID
+App Secret: 第三方接入方应用secret，由Snaplii分配。
 
-orderStr: 订单order String
+OTP: One Time Password。基于时间的TOTP，用app secret转为base32的字符串后作为key。
+
+orderStr: 订单order String，其格式类似为
+
+    {
+		"outterOrderNo":"a275702d001746caace8b40b25a09df6",  
+		"orderAmount":"0.01",  
+		"personalToken":"9077777766",  
+		"sign":"+LtDS7AFES\/k3ttx8yd46TSMlQM="  
+    }
+其中“sign"为签名，签名方式请参照"信用付SDK服务端接入文档"
+
 ## **步骤1: partner后端Server准备**
 请参考后端接入文档。
 ## **步骤2:添加依赖库**
@@ -76,7 +88,7 @@ __weak typeof(self) weakSelf = self;
     NSLog(@"%@", result);
 }];
 ```
-## **步骤7: 支付 Start a Payment**
+## **步骤7: 支付 Start a Payment**
 ```objective-c
 [[SnapliiSDKManager defaultService] payment:@"签名" orderAmount:@"订单金额" 
 outterOrderNo:@"订单号" CurrentController:@"当前控制器" callback:^(NSString * _Nonnull result) {

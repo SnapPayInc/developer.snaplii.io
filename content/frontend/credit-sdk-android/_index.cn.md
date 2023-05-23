@@ -28,7 +28,7 @@ SDK: Snaplii信用付sdk
 
 信用付: Snaplii提供的支付产品
 
-PT: Personal Token
+PT: Personal Token。代表接入方的一个用户ID，推荐使用接入方用户ID的一个hash值，不同的用户要确保value不一样。
 
 AppId: App在Snaplii注册的应用标识ID， 由Snaplii分配给第三方。
 
