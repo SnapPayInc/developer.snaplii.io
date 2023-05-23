@@ -40,40 +40,48 @@ pod 'SnapliiSDK-iOS'
 **建议在App冷启动后调用SDK初始化方法.**
 ```objective-c
 __weak typeof(self) weakSelf = self;
+[[SnapliiSDKManager defaultService] initAppId:@"后台注册的App标识" language:@"语言"
+ personalToken:@"用户号" customerData:@"" Callback:^(CompletionBlock  _Nonnull responseCallback) {
+    [weakSelf getOtp:^(NSString *result) {
+                responseCallback(result);
+            }];
+    }];
 
-[[SnapliiSDK defaultService] initAppId:@"后台注册的App标识" language:@"语言" 
-Callback:^(CompletionBlock  _Nonnull responseCallback) {
-
-        responseCallback([weakSelf getUserOTP]);
- }];
- 
  
  #pragma mark ---- 获取OTP
- -(NSString *)getUserOTP{
+ - (void)getOtp:(void(^)(NSString *))block{
     //网络请求获取OTP
-    
-    return @"OTP";
+    if(成功){
+        block(@"otp");
+    } else {
+       block(@"请求错误");
+    }
 }
 ```
 ## **步骤5: 获取用户是否开通了Snaplii信用付**
 ```objective-c
-BOOL result = [[SnapliiSDK defaultService] hasSnapliiCredit:@"personal token"];
+[[SnapliiSDKManager defaultService] hasSnapliiCreditCurrentController:@"当前控制器" CheckCreditBlcok:^(BOOL result) {
+    if(result == NO) {
+        NSLog(@"没有信用付");
+    } else {
+       NSLog(@"有信用付");
+    }
+}];
 ```
 ## **步骤6: 开通信用付 Initialize SnapliiCredit user**
 开通信用付
 ```objective-c
-[[SnapliiSDK defaultService] initSnapliiCredit:@"personal token" optStr:
-@"one time password" callback:^(NSDictionary *resultDic) {
-//返回成功或失败的错误码
-    NSLog(@"reslut = %@",resultDic);
-
+[[SnapliiSDKManager defaultService] initSnapliiCreditCallback:^(NSString * _Nonnull result) {
+   //返回成功或失败的错误码
+    NSLog(@"%@", result);
 }];
 ```
 ## **步骤7: 支付 Start a Payment**
 ```objective-c
-[[SnapliiSDK defaultService] payment:@"orderStr" callback:^(NSString *result) {
-//返回成功或失败的错误码
-    NSLog(@"reslut = %@",result);
+[[SnapliiSDKManager defaultService] payment:@"签名" orderAmount:@"订单金额" 
+outterOrderNo:@"订单号" CurrentController:@"当前控制器" callback:^(NSString * _Nonnull result) {
+   //返回成功或失败的错误码
+    NSLog(@"%@",result);
 }];
 ```
 ## **[可选配置接口] configurations**
@@ -88,7 +96,7 @@ BOOL result = [[SnapliiSDK defaultService] hasSnapliiCredit:@"personal token"];
 - 初始化SDK
   商户APP工程中引入依赖后，调用API前，需要先向注册您的AppId，代码如下：
 
-`[[SnapliiSDK defaultService] initAppId:(NSString *)appId language:(NSString *)language OTPCallback:(GetOTPBlock)OTPCallback];`
+`[[SnapliiSDK defaultService] initAppId:(NSString *)appId language:(NSString *)language personalToken:(NSString *)personalToken customerData:(NSString *)customerData Callback:(CallbackBlock)callback;`
 
 |**参数**|**类型**|**说明**|
 | :-: | :-: | :-: |
@@ -97,7 +105,7 @@ BOOL result = [[SnapliiSDK defaultService] hasSnapliiCredit:@"personal token"];
 |callback|OTPCallback|sdk请求app更新otp回调方法|
 - 查询信用付账号开通信息
 
-`[[SnapliiSDK defaultService] hasSnapliiCredit:(NSString *)personalToken];`
+`[[SnapliiSDK defaultService] hasSnapliiCreditCurrentController:(UIViewController *)currentController CheckCreditBlcok:(void (^)(BOOL))block;`
 
 |**参数**|**类型**|**说明**|
 | :-: | :-: | :-: |
@@ -109,7 +117,7 @@ BOOL result = [[SnapliiSDK defaultService] hasSnapliiCredit:@"personal token"];
 |return|boolean|<p>true: 已开通</p><p>false: 未开通</p>|
 - 注册开通信用付
 
-`[[SnapliiSDK defaultService] initSnapliiCredit:(NSString *)personalToken optStr:(id)optStr callback:(void(^)(NSString *))callback];`
+`[[SnapliiSDK defaultService] initSnapliiCreditCallback:(void(^)(NSString *))callback;`
 
 |**参数**|**类型**|**说明**|
 | :-: | :-: | :-: |
