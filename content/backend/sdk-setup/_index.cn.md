@@ -47,9 +47,8 @@ Snaplii Server接收partner Server的请求request和Snaplii Server的响应resp
 
 | 枚举名称           | 枚举说明                  |
 |----------------|-----------------------|
-| TRADE_CLOSED   | 未付款交易超时关闭，或支付完成后全额退款。 |
+| TRADE_FAIL     | 交易支付失败。 |
 | TRADE_SUCCESS  | 交易支付成功。               |
-| TRADE_FINISHED | 交易结束，不可退款。            |
 
 
 六、错误码示例
