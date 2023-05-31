@@ -48,9 +48,60 @@ One time passcode是采用标准的基于时间的TOTP算法，目前设置的�
 ## **步骤1: partner后端Server准备**
 请参考后端接入文档。
 ## **步骤2:添加依赖库**
-通过 CocoaPods 导入
 
+
+通过 CocoaPods 导入
+手动添加
+
+`https://github.com/SnapPayInc/cocoapods.git `
+
+下载framework, 导入到工程. 
+
+添加依赖的三方,在podfile 文件添加 
+```
+pod 'AFNetworking'
+pod 'Masonry'
+pod 'MJExtension'
+pod 'MBProgressHUD'
+pod 'YYCache'
+pod 'AcuantiOSSDKV11/AcuantCamera'
+pod 'AcuantiOSSDKV11/AcuantFaceCapture'
+pod 'AcuantiOSSDKV11/AcuantHGLiveness'
+
+post_install do |installer|
+        installer.pods_project.targets.each do |target|
+                if ['AcuantiOSSDKV11', 'Socket.IO-Client-Swift', 'Starscream'].include? http://target.name 
+                        target.build_configurations.each do |config|
+                                config.build_settings['BUILD_LIBRARY_FOR_DISTRIBUTION'] = 'YES'
+                        end
+                end
+        end
+   end
+ ```
+
+通过 CocoaPods 导入
+在podfile文件添加
+```
 pod 'SnapliiSDK-iOS'
+pod 'AFNetworking'
+pod 'Masonry'
+pod 'MJExtension'
+pod 'MBProgressHUD'
+pod 'YYCache'
+pod 'AcuantiOSSDKV11/AcuantCamera'
+pod 'AcuantiOSSDKV11/AcuantFaceCapture'
+pod 'AcuantiOSSDKV11/AcuantHGLiveness'
+
+post_install do |installer|
+        installer.pods_project.targets.each do |target|
+                if ['AcuantiOSSDKV11', 'Socket.IO-Client-Swift', 'Starscream'].include? http://target.name 
+                        target.build_configurations.each do |config|
+                                config.build_settings['BUILD_LIBRARY_FOR_DISTRIBUTION'] = 'YES'
+                        end
+                end
+        end
+   end
+```
 ## **步骤3:权限配置**
 为正常完成良好的支付流程体验以及支付风控需要,info.plist中的开启以下的权限
 
