@@ -6,7 +6,7 @@ draft: false
 **一.概述 Introduction**
 ---------------------
 
-[下载demo工程](./demo.zip)
+<a href="./demo.zip" target="_blank" style="color:blue">下载demo工程</a>
 
 Snaplii信用付SDK
 
