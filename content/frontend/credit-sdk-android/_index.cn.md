@@ -265,7 +265,7 @@ public interface PayResultCallback {
 
     void onSuccess();
 
-    void onError(int errorCode, int errorMsg);
+    void onError(String errorCode, String errorMsg);
 
 }
 ```
@@ -275,8 +275,8 @@ public interface PayResultCallback {
 | activity        | Activity            | activity    |
 | ordStr    | String            | 信用付支付order string |
 | callback  | PayResultCallback | 支付结果的回调           |
-| errorCode | int               | 查询错误码             |
-| errorMsg  | String            | 查询错误描述            |
+| errorCode | String            | 支付错误码             |
+| errorMsg  | String            | 支付错误描述            |
   
   
 *   设置语言
