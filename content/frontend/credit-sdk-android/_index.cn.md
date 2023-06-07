@@ -144,7 +144,7 @@ SnapliiSdk.hasSnapliiCredit(new ICreditCallback() {
     }
 
     @Override
-    public void onError(int code, String msg) {
+    public void onError(String code, String msg) {
     }
 });
 ```
@@ -161,7 +161,7 @@ SnapliiSdk.initSnapliiCredit(activity, new ICCallback() {
     }
 
     @Override
-    public void onError(int errorCode, String errorMsg) {
+    public void onError(String errorCode, String errorMsg) {
     }
 });
 ```
@@ -175,7 +175,7 @@ SnapliiSdk.payment(activity, orderStr, new PayResultCallback() {
     public void onSuccess() {
     }
     @Override
-    public void onError(int errorCode, String errorMsg) {
+    public void onError(String errorCode, String errorMsg) {
     }
 });
 ```
@@ -226,12 +226,23 @@ public interface OTPCallback() {
 
 *   查询信用付账号开通信息  
     **void SnapliiSdk.hasSnapliiCredit(ICreditCallback callback);**
-    
+
+```java
+public interface ICreditCallback {
+
+    void onSuccess();
+
+    void onError(String errorCode, int errorMsg);
+
+}
+```
+
 
 | 参数 | 类型     | 说明             |
 |----|--------|----------------|
 | callback | ICreditCallback | 回调 |
-
+| errorCode | String        | 错误码               |
+| errorMsg  | String     | 错误描述              |
 
 
 *   注册开通信用付
@@ -244,7 +255,7 @@ public interface ICCallback {
 
     void onSuccess();
 
-    void onError(int errorCode, int errorMsg);
+    void onError(String errorCode, int errorMsg);
 
 }
 ```
@@ -253,7 +264,7 @@ public interface ICCallback {
 |-----------|------------|-------------------|
 | activity  | Activity   | activity          |
 | callback  | ICCallback | 回调类               |
-| errorCode | int        | 错误码               |
+| errorCode | String        | 错误码               |
 | errorMsg  | String     | 错误描述              |
 
 *   支付  
