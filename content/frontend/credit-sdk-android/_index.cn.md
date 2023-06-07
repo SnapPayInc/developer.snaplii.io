@@ -94,14 +94,14 @@ dependencyResolutionManagement {
 在 App Module 的 app/build.gradle 中，添加以下内容，将Snaplii SDK 作为项目依赖。
 
 ndk {  
-//选择要添加的对应 cpu 类型的 .so 库。  
-abiFilters 'armeabi-v7a', 'arm64-v8a'  
+    //选择要添加的对应 cpu 类型的 .so 库。  
+    abiFilters 'armeabi-v7a', 'arm64-v8a'  
 }
 
 dependencies {  
-// 添加下方的内容  
-api 'com.snaplii.sdk:snapliisdk-android:1.0.0'  
-// 其它依赖项  
+    // 添加下方的内容  
+    implementation 'com.snaplii.sdk:credit_sdk:0.0.37'
+    // 其它依赖项  
 }
 ```
 步骤3:权限配置
