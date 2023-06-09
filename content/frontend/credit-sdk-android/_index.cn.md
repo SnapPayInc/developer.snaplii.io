@@ -88,6 +88,9 @@ dependencyResolutionManagement {
             }        
             google()
             mavenCentral()
+	    
+	    maven { url 'https://raw.githubusercontent.com/iProov/android/master/maven/' }
+            maven { url 'https://raw.githubusercontent.com/Acuant/AndroidSdkMaven/main/maven/' }
     }
 }
 
@@ -100,7 +103,7 @@ ndk {
 
 dependencies {  
     // 添加下方的内容  
-    implementation 'com.snaplii.sdk:credit_sdk:0.0.37'
+    implementation 'com.snaplii.sdk:credit_sdk:0.0.38'
     // 其它依赖项  
 }
 ```
