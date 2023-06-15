@@ -93,9 +93,9 @@ dependencyResolutionManagement {
             maven { url 'https://raw.githubusercontent.com/Acuant/AndroidSdkMaven/main/maven/' }
     }
 }
-
+```
 在 App Module 的 app/build.gradle 中，添加以下内容，将Snaplii SDK 作为项目依赖。
-
+```
 ndk {  
     //选择要添加的对应 cpu 类型的 .so 库。  
     abiFilters 'armeabi-v7a', 'arm64-v8a'  
@@ -103,7 +103,8 @@ ndk {
 
 dependencies {  
     // 添加下方的内容  
-    implementation 'com.snaplii.sdk:credit_sdk:0.0.38'
+    implementation 'com.snaplii.sdk:credit_sdk:0.0.41'        //sandbox环境
+    implementation 'com.snaplii.sdk:credit_sdk_release:0.0.1' //生产环境
     // 其它依赖项  
 }
 ```
