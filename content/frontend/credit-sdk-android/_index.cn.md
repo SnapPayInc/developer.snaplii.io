@@ -96,9 +96,17 @@ dependencyResolutionManagement {
 ```
 在 App Module 的 app/build.gradle 中，添加以下内容，将Snaplii SDK 作为项目依赖。
 ```
-ndk {  
-    //选择要添加的对应 cpu 类型的 .so 库。  
-    abiFilters 'armeabi-v7a', 'arm64-v8a'  
+defaultConfig {
+    ... ...
+    ndk {  
+        //选择要添加的对应 cpu 类型的 .so 库。  
+        abiFilters 'armeabi-v7a', 'arm64-v8a'  
+    }
+
+    dataBinding {
+        enabled = true
+    }
+    ... ...
 }
 
 dependencies {  
@@ -325,4 +333,4 @@ public interface PayResultCallback {
 六.测试和发布
 -------
 
-在应用发布之前，需要仔细测试集成的支付 SDK 功能，确保支付过程流畅且无错误。一旦确信支付功能已经正常工作，就可以将你的应用发布到市场上供用户使用。
+在应用发布之前，需要仔细测试集成的支付 SDK 功能，确保支付过程流畅且无错误。一旦确认Snaplii信用付支付功能已经正常工作，就可以将你的应用发布到市场上供用户使用。
