@@ -6,6 +6,8 @@ draft: false
 **一.概述 Introduction**
 ---------------------
 
+<a href="./demo.zip" target="_blank" style="color:blue">下载demo工程</a>
+
 Snaplii信用付SDK
 
 **二.接入前准备**
@@ -34,7 +36,7 @@ AppId: App在Snaplii注册的应用标识ID， 由Snaplii分配给第三方。
 
 App Secret: 第三方接入方应用secret，由Snaplii分配。
 
-OTP: One Time Password。基于时间的TOTP，用app secret转为base32的字符串后作为key。
+OTP: One Time Password。基于时间的，用app secret转为base32的字符串后作为key。
 
 orderStr: 订单order String，其格式类似为
 
@@ -67,24 +69,51 @@ One time passcode是采用标准的基于时间的TOTP算法，目前设置的�
 注意：只有"mavenCentral"的仓库可以同步到依赖。如果发现获取不到依赖库，请确认下获取的链接是否有问题。可以尝试将mavenCentral() 放到所有依赖库的第一个来保证优先从这个仓库获取依赖。  
 ```
 allprojects {  
-repositories {  
-// 添加下方的内容  
-mavenCentral()  
-jcenter() 等其它仓库  
-}  
+    repositories {  
+         // 添加下方的内容  
+         mavenCentral()  
+         jcenter() 等其它仓库  
+    }  
 }
 
+dependencyResolutionManagement {    
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+            maven {            
+                    url 'https://maven.pkg.github.com/SnapPayInc/maven/'           
+                    credentials {                
+                        username = "snappay-jenkins"
+                        password = "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"     
+                    }        
+            }        
+            google()
+            mavenCentral()
+	    
+	    maven { url 'https://raw.githubusercontent.com/iProov/android/master/maven/' }
+            maven { url 'https://raw.githubusercontent.com/Acuant/AndroidSdkMaven/main/maven/' }
+    }
+}
+```
 在 App Module 的 app/build.gradle 中，添加以下内容，将Snaplii SDK 作为项目依赖。
+```
+defaultConfig {
+    ... ...
+    ndk {  
+        //选择要添加的对应 cpu 类型的 .so 库。  
+        abiFilters 'armeabi-v7a', 'arm64-v8a'  
+    }
 
-ndk {  
-//选择要添加的对应 cpu 类型的 .so 库。  
-abiFilters 'armeabi-v7a', 'arm64-v8a'  
+    dataBinding {
+        enabled = true
+    }
+    ... ...
 }
 
 dependencies {  
-// 添加下方的内容  
-api 'com.snaplii.sdk:snapliisdk-android:1.0.0'  
-// 其它依赖项  
+    // 添加下方的内容  
+    implementation 'com.snaplii.sdk:credit_sdk:0.0.41'        //sandbox环境
+    //implementation 'com.snaplii.sdk:credit_sdk_release:0.0.1' //生产环境
+    // 其它依赖项  
 }
 ```
 步骤3:权限配置
@@ -108,10 +137,11 @@ android.permission.ACCESS\_WIFI\_STATE
 **建议在App冷启动后调用SDK初始化方法.**
 
 ```java
-SnapliiSDK.initSdk(application, appId, SnapliiSDK.LAN_ZH, new OTPCallback() {
-    @Override    
-    public Observable<String> getOtp() {
-    
+SnapliiSdk.initSdk(this, appId, PT, language, "", new OTPCallback() {      
+    @Override
+    public void getOtp(RetOTPCallback callback) {
+        //mRetOTPCallback = callback;
+         //new Thread(() -> reqOtp()).start();
     }
 });
 ```
@@ -120,7 +150,15 @@ SnapliiSDK.initSdk(application, appId, SnapliiSDK.LAN_ZH, new OTPCallback() {
 ----------------------------
 
 ```java
-boolean ret = SnapliiSDK.hasSnapliiCredit(String pt);
+SnapliiSdk.hasSnapliiCredit(new ICreditCallback() {
+    @Override
+    public void onSuccess(boolean hasCredit) {
+    }
+
+    @Override
+    public void onError(String code, String msg) {
+    }
+});
 ```
 
 **步骤6: 开通信用付 Initialize SnapliiCredit user**
@@ -129,15 +167,13 @@ boolean ret = SnapliiSDK.hasSnapliiCredit(String pt);
 开通信用付
 
 ```java
-SnapliiSDK.initSnapliiCredit(activity, pt, otp, new ICCallback() {
-    @Override    
+SnapliiSdk.initSnapliiCredit(activity, new ICCallback() {
+    @Override
     public void onSuccess() {
-
     }
 
-    @Override    
-    public void onError(int errorCode, int errorMsg) {
-
+    @Override
+    public void onError(String errorCode, String errorMsg) {
     }
 });
 ```
@@ -146,15 +182,12 @@ SnapliiSDK.initSnapliiCredit(activity, pt, otp, new ICCallback() {
 ---------------------------
 
 ```java
-SnapliiSDK.payment(activity, orderStr, new PayResultCallback() {
-    @Override    
+SnapliiSdk.payment(activity, orderStr, new PayResultCallback() {
+    @Override
     public void onSuccess() {
-
     }
-
-    @Override    
-    public void onError(int errorCode, int errorMsg) {
-
+    @Override
+    public void onError(String errorCode, String errorMsg) {
     }
 });
 ```
@@ -179,13 +212,13 @@ SnapliiSDK.payment(activity, orderStr, new PayResultCallback() {
 
 *   初始化SDK  
     商户APP工程中引入依赖后，调用API前，需要先向注册您的AppId，代码如下：  
-    **void SnapliiSdk.initSdk(Application applicationContext, String appId, String lang, OTPCallback callback);**
+    **void SnapliiSdk.initSdk(Application applicationContext, String appId, String lang, String customData, OTPCallback callback);**
     
 
 ```java
 public interface OTPCallback() {
     @Override    
-    public Observable<String> getOtp() {
+    public void getOtp(RetOTPCallback callback) { 
     
     }
 });
@@ -196,37 +229,45 @@ public interface OTPCallback() {
 | applicationContext | Application | Application上下文    |
 | appId              | String      | 后台注册的App标识        |
 | lang               | String      | 语言设置zh/en         |
+| coustomData        |String       | 业务自定义参数.        |
 | callback           | OTPCallback | sdk请求app更新otp回调方法 |
 
-| OTPCallback返回值 | 类型                       | 说明                            |
+| 回调 | 类型                       | 说明                            |
 |----------------|--------------------------|-------------------------------|
-| return         | Observable&lt;String&gt; | app返回 io.reactivex.Observable |
+| callback         | RetOTPCallback | app通过callback把otp设置给sdk |
 
 *   查询信用付账号开通信息  
-    **boolean SnapliiSdk.hasSnapliiCredit(String pt);**
-    
+    **void SnapliiSdk.hasSnapliiCredit(ICreditCallback callback);**
+
+```java
+public interface ICreditCallback {
+
+    void onSuccess();
+
+    void onError(String errorCode, int errorMsg);
+
+}
+```
+
 
 | 参数 | 类型     | 说明             |
 |----|--------|----------------|
-| pt | String | personal token |
-
-
-| 返回值    | 类型      | 说明                  |
-|--------|---------|---------------------|
-| return | boolean | true: 已开通false: 未开通 |
+| callback | ICreditCallback | 回调 |
+| errorCode | String        | 错误码               |
+| errorMsg  | String     | 错误描述              |
 
 
 *   注册开通信用付
     
 
-**void SnapliiSdk.initSnapliiCredit(Activity activity, String pt, String otp, ICCallback callback);**
+**void SnapliiSdk.initSnapliiCredit(Activity activity, ICCallback callback);**
 
 ```java
 public interface ICCallback {
 
     void onSuccess();
 
-    void onError(int errorCode, int errorMsg);
+    void onError(String errorCode, int errorMsg);
 
 }
 ```
@@ -234,14 +275,14 @@ public interface ICCallback {
 | 参数        | 类型         | 说明                |
 |-----------|------------|-------------------|
 | activity  | Activity   | activity          |
-| pt        | String     | personal token    |
-| otp       | String     | one time password |
 | callback  | ICCallback | 回调类               |
-| errorCode | int        | 错误码               |
+| errorCode | String        | 错误码               |
 | errorMsg  | String     | 错误描述              |
 
+【注】已开通信用付的账号，如果换了手机设备，也需要先调用SnapliiSdk.hasSnapliiCredit()，判断是否开通信用付， 如果SnapliiSdk.hasSnapliiCredit()返回false，需要调用SnapliiSdk.initSnapliiCredit()方法进入手机号验证页面验证，才能使用SnapliiSdk.payment()接口进行支付
+
 *   支付  
-    **void SnapliiSdk.payment(String orderStr, String pt, PayResultCallback callback);**
+    **void SnapliiSdk.payment(Activity activity, String orderStr, PayResultCallback callback);**
     
 
 ```java
@@ -249,42 +290,20 @@ public interface PayResultCallback {
 
     void onSuccess();
 
-    void onError(int errorCode, int errorMsg);
+    void onError(String errorCode, String errorMsg);
 
 }
 ```
 
 | 参数        | 类型                | 说明                |
 |-----------|-------------------|-------------------|
+| activity        | Activity            | activity    |
 | ordStr    | String            | 信用付支付order string |
-| pt        | String            | personal token    |
 | callback  | PayResultCallback | 支付结果的回调           |
-| errorCode | int               | 查询错误码             |
-| errorMsg  | String            | 查询错误描述            |
-
-*   支付 (当支付接口返回 “**session 已过期**” 错误时调用)  
-    **void SnapliiSdk.payment(String orderStr, String pt, String otp, PayResultCallback callback);**
-    
-
-```java
-public interface PayResultCallback {
-
-    void onSuccess();
-
-    void onError(int errorCode, int errorMsg);
-
-}
-```
-
-| 参数        | 类型                | 说明                |
-|-----------|-------------------|-------------------|
-| ordStr    | String            | 信用付支付order string |
-| pt        | String            | personal token    |
-| otp       | String            | one time password |
-| callback  | PayResultCallback | 支付结果的回调           |
-| errorCode | int               | 查询错误码             |
-| errorMsg  | String            | 查询错误描述            |
-
+| errorCode | String            | 支付错误码             |
+| errorMsg  | String            | 支付错误描述            |
+  
+  
 *   设置语言
     
 
@@ -292,7 +311,7 @@ public interface PayResultCallback {
 
 | 参数    | 类型      | 说明                                   |
 |-------|---------|--------------------------------------|
-| value | boolean | SnapliiSDK.EN = 0;SnapliiSDK.CN = 1; |
+| value | String | SnapliiSDK.LANGUAGE_EN = “en“;SnapliiSDK.LANGUAGE_ZH = “zh“; |
 
 *   打开debug日志
     
@@ -312,23 +331,8 @@ public interface PayResultCallback {
 |-----|--------|------------------|
 | ret | String | 获取Sdk版本号，例如1.0.0 |
 
-六.错误码示例（最终以Snaplii后端定义为准）
--------------------------
 
-| 错误码  | 说明          |
-|------|-------------|
-| 1001 | 签名错误        |
-| 1002 | 参数错误        |
-| 1003 | app未注册      |
-| 1004 | 订单错误        |
-| 1005 | 支付失败        |
-| 1006 | 风控错误        |
-| 1007 | pt无效        |
-| 1008 | otp无效       |
-| 1009 | 信用付账号不存在    |
-| 1010 | session 已过期 |
-
-七.测试和发布
+六.测试和发布
 -------
 
-在应用发布之前，需要仔细测试集成的支付 SDK 功能，确保支付过程流畅且无错误。一旦确信支付功能已经正常工作，就可以将你的应用发布到市场上供用户使用。
+在应用发布之前，需要仔细测试集成的支付 SDK 功能，确保支付过程流畅且无错误。一旦确认Snaplii信用付支付功能已经正常工作，就可以将你的应用发布到市场上供用户使用。
