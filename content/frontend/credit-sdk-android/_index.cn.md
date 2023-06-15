@@ -279,6 +279,8 @@ public interface ICCallback {
 | errorCode | String        | 错误码               |
 | errorMsg  | String     | 错误描述              |
 
+【注】已开通信用付的账号，如果换了手机设备，也需要先调用SnapliiSdk.hasSnapliiCredit()，判断是否开通信用付， 如果SnapliiSdk.hasSnapliiCredit()返回false，需要调用SnapliiSdk.initSnapliiCredit()方法进入手机号验证页面验证，才能使用SnapliiSdk.payment()接口进行支付
+
 *   支付  
     **void SnapliiSdk.payment(Activity activity, String orderStr, PayResultCallback callback);**
     
