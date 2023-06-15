@@ -40,7 +40,7 @@ Snaplii Server接收partner Server的请求request和Snaplii Server的响应resp
 四、服务端调用接口
 ---------
 
-{{< swagger src="snaplii-sdk-new.openapi.json" >}}
+{{< swagger src="snaplii-credit-sdk.openapi.json" >}}
 
 五、交易状态说明
 --------
