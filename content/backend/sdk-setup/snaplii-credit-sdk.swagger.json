@@ -1,0 +1,248 @@
+{
+  "info": {
+    "title": "snaplii-credit-sdk",
+    "description": "",
+    "version": "1.0.0"
+  },
+  "tags": [
+    {
+      "name": "partner服务端调用接口"
+    }
+  ],
+  "paths": {
+    "/partner{XXXX}/notify": {
+      "post": {
+        "summary": "异步通知partner服务器",
+        "x-apifox-folder": "partner服务端调用接口",
+        "x-apifox-status": "released",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "partner服务端调用接口"
+        ],
+        "parameters": [
+          {
+            "name": "XXXX",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "type": "string",
+            "x-example": ""
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "trans_no": {
+                  "type": "string",
+                  "description": "Snaplii交易凭证号。",
+                  "title": "Snaplii交易号"
+                },
+                "out_trans_no": {
+                  "type": "string",
+                  "title": "partner订单号"
+                },
+                "trans_status": {
+                  "type": "string",
+                  "description": "交易状态。咨询目前所处的状态。",
+                  "title": "交易状态"
+                },
+                "total_amount": {
+                  "type": "number",
+                  "description": "本次交易支付的订单金额，单位为CAD（元）。支持小数点后两位。",
+                  "title": "订单金额"
+                },
+                "trans_create_time": {
+                  "type": "string",
+                  "description": "该笔交易创建的时间。格式 为 yyyy-MM-dd HH:mm:ss。",
+                  "title": "交易创建时间"
+                },
+                "trans_payment_time": {
+                  "type": "string",
+                  "description": "该笔交易的买家付款时间。格式为 yyyy-MM-dd HH:mm:ss。",
+                  "title": "交易付款时间"
+                }
+              },
+              "x-apifox-orders": [
+                "trans_no",
+                "out_trans_no",
+                "trans_status",
+                "total_amount",
+                "trans_create_time",
+                "trans_payment_time"
+              ],
+              "x-apifox-ignore-properties": []
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "title": "title",
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "title": "code",
+                  "description": "200"
+                }
+              },
+              "required": [
+                "code"
+              ],
+              "x-apifox-orders": [
+                "code"
+              ],
+              "x-apifox-ignore-properties": []
+            }
+          }
+        },
+        "x-run-in-apifox": "https://apifox.com/web/project/2886721/apis/api-89308447-run",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/partner/order/refund": {
+      "post": {
+        "summary": "交易退款",
+        "x-apifox-folder": "partner服务端调用接口",
+        "x-apifox-status": "released",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "partner服务端调用接口"
+        ],
+        "parameters": [
+          {
+            "name": "app-id",
+            "in": "header",
+            "description": "开发者的 app_id。Snaplii分配给开发者的应用 APPID",
+            "required": false,
+            "type": "string",
+            "x-example": "a45effdbc983ddc"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "title": "title",
+              "properties": {
+                "sign": {
+                  "type": "string",
+                  "description": "请求参数的签名串，详见签名",
+                  "title": "请求参数的签名串"
+                },
+                "refund_amount": {
+                  "type": "string",
+                  "title": "退款金额",
+                  "description": "需要退款的金额，该金额不能大于订单金额，单位为元，支持两位小数。"
+                },
+                "refund_reason": {
+                  "type": "string",
+                  "title": "退款原因说明",
+                  "description": "partner自定义"
+                },
+                "out_trans_no": {
+                  "type": "string",
+                  "title": "partner唯一订单号",
+                  "description": "由partner自定义，64个字符以内，仅支持字母、数字、下划线且需保证在商户端不重复。"
+                },
+                "trans_no": {
+                  "type": "string",
+                  "title": "Snaplii交易号",
+                  "description": "和partner订单号 out_trans_no 不能同时为空。"
+                },
+                "out_personal_token": {
+                  "type": "string",
+                  "title": "partner personal token"
+                },
+                "out_request_no": {
+                  "type": "string",
+                  "title": "退款请求号",
+                  "description": "标识一次退款请求，需要保证在交易号下唯一，此参数必传。 注：针对同一次退款请求，如果调用接口失败或异常了，重试时需要保证退款请求号不能变更，防止该笔交易重复退款。Snaplii会保证同样的退款请求号多次请求只会退一次。"
+                }
+              },
+              "required": [
+                "sign",
+                "refund_amount",
+                "refund_reason",
+                "trans_no",
+                "out_trans_no",
+                "out_personal_token",
+                "out_request_no"
+              ],
+              "x-apifox-orders": [
+                "sign",
+                "refund_amount",
+                "refund_reason",
+                "out_trans_no",
+                "trans_no",
+                "out_personal_token",
+                "out_request_no"
+              ],
+              "x-apifox-ignore-properties": []
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "title": "title",
+              "properties": {
+                "refund_amount": {
+                  "type": "string",
+                  "title": "退款金额",
+                  "description": "退款金额"
+                },
+                "status": {
+                  "type": "string",
+                  "title": "退款状态",
+                  "description": "SUCCESS - 退款成功， FAIL- 退款失败",
+                  "enum": [
+                    "SUCCESS",
+                    "FAIL"
+                  ],
+                  "x-apifox": {
+                    "enumDescriptions": {
+                      "SUCCESS": "",
+                      "FAIL": ""
+                    }
+                  }
+                }
+              },
+              "x-apifox-orders": [
+                "refund_amount",
+                "status"
+              ],
+              "required": [
+                "refund_amount",
+                "status"
+              ],
+              "x-apifox-ignore-properties": []
+            }
+          }
+        },
+        "x-run-in-apifox": "https://apifox.com/web/project/2886721/apis/api-89308448-run",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ]
+      }
+    }
+  },
+  "swagger": "2.0",
+  "definitions": {},
+  "x-components": {}
+}
