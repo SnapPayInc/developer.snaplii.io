@@ -36,7 +36,7 @@ AppId: App在Snaplii注册的应用标识ID， 由Snaplii分配给第三方。
 
 App Secret: 第三方接入方应用secret，由Snaplii分配。
 
-OTP: One Time Password。基于时间的TOTP，用app secret转为base32的字符串后作为key。
+OTP: One Time Password。基于时间的，用app secret转为base32的字符串后作为key。
 
 orderStr: 订单order String，其格式类似为
 
