@@ -134,7 +134,7 @@ android.permission.ACCESS\_WIFI\_STATE
 **步骤4：初始化SDK Initialize SDK**
 -----------------------------
 
-**建议在App冷启动后调用SDK初始化方法.**
+
 
 ```java
 SnapliiSdk.initSdk(this, appId, PT, language, "", new OTPCallback() {      
