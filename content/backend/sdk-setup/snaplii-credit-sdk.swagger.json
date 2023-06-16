@@ -46,8 +46,18 @@
                 },
                 "trans_status": {
                   "type": "string",
+                  "title": "交易状态",
                   "description": "交易状态。咨询目前所处的状态。",
-                  "title": "交易状态"
+                  "enum": [
+                    "TRADE_SUCCESS",
+                    "TRADE_FAIL"
+                  ],
+                  "x-apifox": {
+                    "enumDescriptions": {
+                      "TRADE_SUCCESS": "",
+                      "TRADE_FAIL": ""
+                    }
+                  }
                 },
                 "total_amount": {
                   "type": "number",
@@ -64,6 +74,14 @@
                   "description": "该笔交易的买家付款时间。格式为 yyyy-MM-dd HH:mm:ss。",
                   "title": "交易付款时间"
                 }
+              },
+			  "example": {
+                "trans_status": "TRADE_FAIL",
+                "out_trans_no": "PM98409820098",
+                "trans_payment_time": "2023-05-10 12:20:03",
+                "trans_no": "PPD9873593705",
+                "total_amount": 47.56,
+                "trans_create_time": "2023-05-10 12:20:00"
               },
               "x-apifox-orders": [
                 "trans_no",
@@ -97,7 +115,12 @@
                 "code"
               ],
               "x-apifox-ignore-properties": []
-            }
+            },
+			"examples": {
+                "application/json": {
+                    "code": 200
+				}
+            }	
           }
         },
         "x-run-in-apifox": "https://apifox.com/web/project/2886721/apis/api-89308447-run",
@@ -170,6 +193,15 @@
                   "description": "标识一次退款请求，需要保证在交易号下唯一，此参数必传。 注：针对同一次退款请求，如果调用接口失败或异常了，重试时需要保证退款请求号不能变更，防止该笔交易重复退款。Snaplii会保证同样的退款请求号多次请求只会退一次。"
                 }
               },
+			  "example": {
+                "sign": "17a46dcc9c92d5c045ff646",
+                "refund_amount": "43.76",
+                "refund_reason": "test purpose",
+                "trans_no": "PPD028509380",
+                "out_trans_no": "PM937598347906",
+                "out_personal_token": "5a56fe912kh",
+                "out_request_no": "REQ-30hjk346509"
+              },
               "required": [
                 "sign",
                 "refund_amount",
@@ -229,6 +261,12 @@
                 "status"
               ],
               "x-apifox-ignore-properties": []
+            },
+			"examples": {
+				"application/json": {
+					"refundAmount": "43.76",
+					"status": "FAIL"
+				}                
             }
           }
         },
