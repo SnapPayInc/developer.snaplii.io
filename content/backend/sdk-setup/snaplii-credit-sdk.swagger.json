@@ -10,7 +10,7 @@
     }
   ],
   "paths": {
-    "/partner{XXXX}/notify": {
+    "/{XXXX}/notify": {
       "post": {
         "summary": "异步通知partner服务器",
         "x-apifox-folder": "partner服务端调用接口",
@@ -132,7 +132,7 @@
         ]
       }
     },
-    "/partner/order/refund": {
+    "/refund": {
       "post": {
         "summary": "交易退款",
         "x-apifox-folder": "partner服务端调用接口",
