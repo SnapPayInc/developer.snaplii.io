@@ -111,7 +111,7 @@ defaultConfig {
 
 dependencies {  
     // 添加下方的内容  
-    implementation 'com.snaplii.sdk:credit_sdk:0.0.41'        //sandbox环境
+    implementation 'com.snaplii.sdk:credit_sdk:0.0.42'        //sandbox环境
     //implementation 'com.snaplii.sdk:credit_sdk_release:0.0.1' //生产环境
     // 其它依赖项  
 }
@@ -134,7 +134,7 @@ android.permission.ACCESS\_WIFI\_STATE
 **步骤4：初始化SDK Initialize SDK**
 -----------------------------
 
-**建议在App冷启动后调用SDK初始化方法.**
+
 
 ```java
 SnapliiSdk.initSdk(this, appId, PT, language, "", new OTPCallback() {      
