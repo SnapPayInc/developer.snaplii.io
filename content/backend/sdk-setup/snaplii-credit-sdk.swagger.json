@@ -4,6 +4,12 @@
     "description": "",
     "version": "1.0.0"
   },
+  "servers":[
+        {
+            "url":"http://snaplii-credit-sdk.sandbox.snaplii.com",
+            "description":"Snaplii SDK sandbox server"
+        }
+  ],
   "tags": [
     {
       "name": "partner服务端调用接口"
