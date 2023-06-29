@@ -270,7 +270,7 @@
             },
 			"examples": {
 				"application/json": {
-					"refundAmount": "43.76",
+					"refund_amount": "43.76",
 					"status": "FAIL"
 				}                
             }
