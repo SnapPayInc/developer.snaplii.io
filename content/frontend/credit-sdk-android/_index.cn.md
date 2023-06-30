@@ -129,7 +129,7 @@ android.permission.ACCESS_COARSE_LOCATION
 android.permission.ACCESS_FINE_LOCATION  
 android.permission.CAMERA
 
-android.permission.ACCESS\_WIFI\_STATE
+android.permission.ACCESS_WIFI_STATE
 ```
 **步骤4：初始化SDK Initialize SDK**
 -----------------------------
