@@ -112,7 +112,7 @@ defaultConfig {
 dependencies {  
     // 添加下方的内容  
     //implementation 'com.snaplii.sdk:credit_sdk:0.0.42'        //sandbox环境
-    implementation 'com.snaplii.sdk:credit_sdk_release:0.0.10' //生产环境
+    implementation 'com.snaplii.sdk:credit_sdk_release:0.0.15' //生产环境
     // 其它依赖项  
 }
 ```
@@ -336,3 +336,16 @@ public interface PayResultCallback {
 -------
 
 在应用发布之前，需要仔细测试集成的支付 SDK 功能，确保支付过程流畅且无错误。一旦确认Snaplii信用付支付功能已经正常工作，就可以将你的应用发布到市场上供用户使用。
+
+七.运营广告跳转
+```java
+        if (url.startsWith("snapliisdk://")) {
+            try {
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                startActivity(intent);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return true;
+        }
+```
