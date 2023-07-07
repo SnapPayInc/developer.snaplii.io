@@ -338,7 +338,13 @@ public interface PayResultCallback {
 在应用发布之前，需要仔细测试集成的支付 SDK 功能，确保支付过程流畅且无错误。一旦确认Snaplii信用付支付功能已经正常工作，就可以将你的应用发布到市场上供用户使用。
 
 七.运营广告跳转
+-------
+
+针对运营需求，在宿主App的运营Widget需要跳转到Snaplii的落地H5页面，该H5页面会跳转到信用付申请页，如果无法跳转，需要宿主App的WebView处理schema为"snapliisdk://"跳转，代码如下：
 ```java
+@Override
+    public boolean shouldOverrideUrlLoading(WebView view, String url) {
+    ... ...
         if (url.startsWith("snapliisdk://")) {
             try {
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
@@ -348,4 +354,5 @@ public interface PayResultCallback {
             }
             return true;
         }
+    ... ...
 ```
