@@ -342,7 +342,7 @@ public interface PayResultCallback {
 
 针对运营需求，在宿主App的运营Widget需要跳转到Snaplii的落地H5页面，该H5页面会跳转到信用付申请页，如果无法跳转，需要宿主App的WebView处理schema为"snapliisdk://"跳转，代码如下：
 ```java
-@Override
+    @Override
     public boolean shouldOverrideUrlLoading(WebView view, String url) {
     ... ...
         if (url.startsWith("snapliisdk://")) {
@@ -355,4 +355,5 @@ public interface PayResultCallback {
             return true;
         }
     ... ...
+    }
 ```
