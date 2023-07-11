@@ -156,6 +156,11 @@ outterOrderNo:@"订单号" CurrentController:@"当前控制器" callback:^(NSStr
     NSLog(@"%@",result);
 }];
 ```
+
+## **步骤8: 退出**
+```objective-c
+    [[SnapliiSDKManager defaultService] logoutSnapliiSDKInfo];
+```
 ## **[可选配置接口] configurations**
 **1.配置语言:**
 
