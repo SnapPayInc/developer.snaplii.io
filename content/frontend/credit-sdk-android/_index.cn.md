@@ -302,7 +302,11 @@ public interface PayResultCallback {
 | callback  | PayResultCallback | 支付结果的回调           |
 | errorCode | String            | 支付错误码             |
 | errorMsg  | String            | 支付错误描述            |
-  
+
+*   退出登录
+    
+
+**void SnapliiSdk.logout();**  
   
 *   设置语言
     
