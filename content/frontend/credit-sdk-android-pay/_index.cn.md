@@ -1,5 +1,5 @@
 ---
-title: "信用付Android SDK接入文档"
+title: "使用信用付支付Android SDK 接入文档"
 date: 2023-04-13T15:13:38-04:00
 draft: false
 ---
