@@ -96,10 +96,6 @@ dependencyResolutionManagement {
 ```
 defaultConfig {
     ... ...
-    ndk {  
-        //选择要添加的对应 cpu 类型的 .so 库。  
-        abiFilters 'armeabi-v7a', 'arm64-v8a'  
-    }
 
     dataBinding {
         enabled = true
@@ -109,8 +105,8 @@ defaultConfig {
 
 dependencies {  
     // 添加下方的内容  
-    //implementation 'com.snaplii.sdk:credit_sdk:0.0.42'        //sandbox环境
-    implementation 'com.snaplii.sdk:credit_sdk_release:0.0.17' //生产环境
+    implementation 'com.snaplii.sdk:credit_sdk_sandbox_pay:0.0.1'        //sandbox环境
+    //implementation 'com.snaplii.sdk:credit_sdk_pay:0.0.1'                //生产环境
     // 其它依赖项  
 }
 ```
@@ -125,7 +121,6 @@ android.permission.INTERNET
 android.permission.ACCESS_NETWORK_STATE  
 android.permission.ACCESS_COARSE_LOCATION  
 android.permission.ACCESS_FINE_LOCATION  
-android.permission.CAMERA
 
 android.permission.ACCESS_WIFI_STATE
 ```
@@ -144,39 +139,7 @@ SnapliiSdk.initSdk(this, appId, PT, language, "", new OTPCallback() {
 });
 ```
 
-**步骤5: 获取用户是否开通了Snaplii信用付**
-----------------------------
-
-```java
-SnapliiSdk.hasSnapliiCredit(new ICreditCallback() {
-    @Override
-    public void onSuccess(boolean hasCredit) {
-    }
-
-    @Override
-    public void onError(String code, String msg) {
-    }
-});
-```
-
-**步骤6: 开通信用付 Initialize SnapliiCredit user**
---------------------------------------------
-
-开通信用付
-
-```java
-SnapliiSdk.initSnapliiCredit(activity, new ICCallback() {
-    @Override
-    public void onSuccess() {
-    }
-
-    @Override
-    public void onError(String errorCode, String errorMsg) {
-    }
-});
-```
-
-**步骤7: 支付 Start a Payment**
+**步骤5: 支付 Start a Payment**
 ---------------------------
 
 ```java
@@ -234,50 +197,6 @@ public interface OTPCallback() {
 |----------------|--------------------------|-------------------------------|
 | callback         | RetOTPCallback | app通过callback把otp设置给sdk |
 
-*   查询信用付账号开通信息  
-    **void SnapliiSdk.hasSnapliiCredit(ICreditCallback callback);**
-
-```java
-public interface ICreditCallback {
-
-    void onSuccess();
-
-    void onError(String errorCode, int errorMsg);
-
-}
-```
-
-
-| 参数 | 类型     | 说明             |
-|----|--------|----------------|
-| callback | ICreditCallback | 回调 |
-| errorCode | String        | 错误码               |
-| errorMsg  | String     | 错误描述              |
-
-
-*   注册开通信用付
-    
-
-**void SnapliiSdk.initSnapliiCredit(Activity activity, ICCallback callback);**
-
-```java
-public interface ICCallback {
-
-    void onSuccess();
-
-    void onError(String errorCode, int errorMsg);
-
-}
-```
-
-| 参数        | 类型         | 说明                |
-|-----------|------------|-------------------|
-| activity  | Activity   | activity          |
-| callback  | ICCallback | 回调类               |
-| errorCode | String        | 错误码               |
-| errorMsg  | String     | 错误描述              |
-
-【注】已开通信用付的账号，如果换了手机设备，也需要先调用SnapliiSdk.hasSnapliiCredit()，判断是否开通信用付， 如果SnapliiSdk.hasSnapliiCredit()返回false，需要调用SnapliiSdk.initSnapliiCredit()方法进入手机号验证页面验证，才能使用SnapliiSdk.payment()接口进行支付
 
 *   支付  
     **void SnapliiSdk.payment(Activity activity, String orderStr, PayResultCallback callback);**
@@ -337,25 +256,6 @@ public interface PayResultCallback {
 六.测试和发布
 -------
 
-在应用发布之前，需要仔细测试集成的支付 SDK 功能，确保支付过程流畅且无错误。一旦确认Snaplii信用付支付功能已经正常工作，就可以将你的应用发布到市场上供用户使用。
+在应用发布之前，需要仔细测试集成的支付 SDK 功能，确保支付过程流畅且无错误。确认Snaplii信用付支付功能已经正常工作后，就可以您的应用发布到市场上供用户使用。
 
-七.运营广告跳转
--------
 
-针对运营需求，在宿主App的运营Widget需要跳转到Snaplii的落地H5页面，该H5页面会跳转到信用付申请页，如果无法跳转，需要宿主App的WebView处理schema为"snapliisdk://"跳转，代码如下：
-```java
-    @Override
-    public boolean shouldOverrideUrlLoading(WebView view, String url) {
-    ... ...
-        if (url.startsWith("snapliisdk://")) {
-            try {
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                startActivity(intent);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return true;
-        }
-    ... ...
-    }
-```
