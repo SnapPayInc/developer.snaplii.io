@@ -138,6 +138,25 @@ SnapliiSdk.initSdk(this, appId, PT, language, "", new OTPCallback() {
 });
 ```
 
+**步骤5：选择信用付支付时，判断是否登录，未登录调用登录接口**
+-----------------------------
+```java
+if (!SnapliiSdk.hasLogin()) {
+    SnapliiSdk.login(DemoActivity.this, new ILoginCallback() {
+        @Override
+        public void onSuccess() {
+                Log.e(TAG, "login success");
+        }
+
+        @Override
+        public void onCancel() {
+                Log.e(TAG, "login cancel");
+        }
+    });
+}
+
+```
+
 **步骤5: 支付 Start a Payment**
 ---------------------------
 
