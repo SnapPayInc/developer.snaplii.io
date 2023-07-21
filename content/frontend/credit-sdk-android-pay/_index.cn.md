@@ -57,12 +57,12 @@ One time passcode是采用标准的基于时间的TOTP算法，目前设置的�
 其他语言的实现可参照对应的实现文档
 
 
-步骤1: **partner服务端Server准备**
---------------------------
+## 五. 服务端准备工作: partner服务端Server准备
 
 请参考服务端接入文档。
 
-步骤2:添加依赖库
+## 五. 客户端接入流程准备工作 (可参考文档中的demo代码工程)
+步骤1:添加依赖库
 ---------
 
 在主项目的 build.gradle 中，添加以下内容：  
@@ -123,7 +123,7 @@ android.permission.ACCESS_FINE_LOCATION
 
 android.permission.ACCESS_WIFI_STATE
 ```
-**步骤4：初始化SDK Initialize SDK (代码可参考文章开头的Demo工程代码)**
+**步骤4：初始化SDK Initialize SDK **
 -----------------------------
 
 
