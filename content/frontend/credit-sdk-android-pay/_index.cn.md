@@ -123,7 +123,7 @@ android.permission.ACCESS_FINE_LOCATION
 
 android.permission.ACCESS_WIFI_STATE
 ```
-**步骤4：初始化SDK Initialize SDK**
+**步骤4：初始化SDK Initialize SDK (代码可参考文章开头的Demo工程代码)**
 -----------------------------
 
 
@@ -157,7 +157,7 @@ if (!SnapliiSdk.hasLogin()) {
 
 ```
 
-**步骤5: 支付 Start a Payment**
+**步骤6: 支付 Start a Payment**
 ---------------------------
 
 ```java
@@ -170,6 +170,13 @@ SnapliiSdk.payment(activity, orderStr, new PayResultCallback() {
     }
 });
 ```
+**步骤7: 登出现有信用付账号，切换手机号**
+---------------------------
+
+```java
+SnapliiSdk.logout();
+```
+
 
 **\[可选配置接口\] configurations**
 -----------------------------
