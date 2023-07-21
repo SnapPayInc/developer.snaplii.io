@@ -62,7 +62,8 @@ One time passcode是采用标准的基于时间的TOTP算法，目前设置的�
 请参考服务端接入文档。
 
 ## 六. 客户端接入流程准备工作 (可参考文档中的demo代码工程)
-步骤1:添加依赖库
+
+**步骤1:添加依赖库**
 ---------
 
 在主项目的 build.gradle 中，添加以下内容：  
@@ -109,7 +110,7 @@ dependencies {
     // 其它依赖项  
 }
 ```
-步骤2:权限配置
+**步骤2:权限配置**
 --------
 
 配置 AndroidManifest.xml 文件中的运行权限
@@ -123,7 +124,7 @@ android.permission.ACCESS_FINE_LOCATION
 
 android.permission.ACCESS_WIFI_STATE
 ```
-**步骤3：初始化SDK Initialize SDK **
+**步骤3：初始化SDK Initialize SDK**
 -----------------------------
 
 
@@ -184,7 +185,7 @@ SnapliiSdk.logout();
 
 **2.配置语言:**
 ```java
-SnapliiSDK.setLanguage(SnapliiSDK.LAN\_EN);
+SnapliiSDK.setLanguage(SnapliiSDK.LAN_EN);
 ```
 
 **3.输出logcat debug日志:**
