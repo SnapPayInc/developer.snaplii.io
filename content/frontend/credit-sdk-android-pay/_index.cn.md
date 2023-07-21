@@ -192,9 +192,9 @@ SnapliiSDK.setLanguage(SnapliiSDK.LAN\_EN);
 SnapliiSDK.setDebug(true);
 ```
 
-**3.获取sdk版本:**
+**4.获取sdk版本:**
 ```java
-**SnapliiSDK.getVersion();**
+SnapliiSDK.getVersion();
 ```
 
 五.SDK接口说明
