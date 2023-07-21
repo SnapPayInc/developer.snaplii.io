@@ -170,28 +170,32 @@ SnapliiSdk.payment(activity, orderStr, new PayResultCallback() {
     }
 });
 ```
-**步骤6: 登出现有信用付账号，切换手机号**
----------------------------
 
-```java
-SnapliiSdk.logout();
-```
+
 
 
 **\[可选配置接口\] configurations**
 -----------------------------
 
-**1.配置语言:**
+**1.登出现有信用付账号，切换手机号:**
+```java
+SnapliiSdk.logout();
+```
 
-**SnapliiSDK.setLanguage(SnapliiSDK.LAN\_EN);**
+**2.配置语言:**
+```java
+SnapliiSDK.setLanguage(SnapliiSDK.LAN\_EN);
+```
 
-**2.输出logcat debug日志:**
-
-**SnapliiSDK.setDebug(true);**
+**3.输出logcat debug日志:**
+```java
+SnapliiSDK.setDebug(true);
+```
 
 **3.获取sdk版本:**
-
+```java
 **SnapliiSDK.getVersion();**
+```
 
 五.SDK接口说明
 ---------
