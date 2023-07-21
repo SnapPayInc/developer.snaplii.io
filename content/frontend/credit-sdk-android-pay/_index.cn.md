@@ -227,7 +227,7 @@ public interface PayResultCallback {
 *   检查是否登录
     
 
-**void SnapliiSdk.hasLogin();**
+**boolean SnapliiSdk.hasLogin();**
 
 *   退出登录
     
