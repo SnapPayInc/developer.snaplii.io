@@ -145,12 +145,12 @@ if (!SnapliiSdk.hasLogin()) {
     SnapliiSdk.login(DemoActivity.this, new ILoginCallback() {
         @Override
         public void onSuccess() {
-                Log.e(TAG, "login success");
+            Log.e(TAG, "login success");
         }
 
         @Override
         public void onCancel() {
-                Log.e(TAG, "login cancel");
+            Log.e(TAG, "login cancel");
         }
     });
 }
