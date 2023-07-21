@@ -196,6 +196,10 @@ public interface OTPCallback() {
 |----------------|--------------------------|-------------------------------|
 | callback         | RetOTPCallback | app通过callback把otp设置给sdk |
 
+*   登录
+    
+
+**void SnapliiSdk.login();**
 
 *   支付  
     **void SnapliiSdk.payment(Activity activity, String orderStr, PayResultCallback callback);**
@@ -218,6 +222,12 @@ public interface PayResultCallback {
 | callback  | PayResultCallback | 支付结果的回调           |
 | errorCode | String            | 支付错误码             |
 | errorMsg  | String            | 支付错误描述            |
+
+
+*   检查是否登录
+    
+
+**void SnapliiSdk.hasLogin();**
 
 *   退出登录
     
