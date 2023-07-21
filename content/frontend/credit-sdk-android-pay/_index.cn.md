@@ -83,7 +83,7 @@ dependencyResolutionManagement {
                     url 'https://maven.pkg.github.com/SnapPayInc/maven/'           
                     credentials {                
                         username = "snappay-jenkins"
-                        password = "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"     
+                        password = "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"     
                     }        
             }        
             google()
@@ -105,8 +105,7 @@ defaultConfig {
 
 dependencies {  
     // 添加下方的内容  
-    implementation 'com.snaplii.sdk:credit_sdk_sandbox_pay:0.0.2'        //sandbox环境
-    //implementation 'com.snaplii.sdk:credit_sdk_pay:0.0.1'                //生产环境
+    implementation 'com.snaplii.sdk:credit_sdk_sandbox_pay:0.0.3'        //sandbox环境
     // 其它依赖项  
 }
 ```
