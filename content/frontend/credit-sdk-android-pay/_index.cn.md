@@ -105,7 +105,7 @@ defaultConfig {
 
 dependencies {  
     // 添加下方的内容  
-    implementation 'com.snaplii.sdk:credit_sdk_sandbox_pay:0.0.1'        //sandbox环境
+    implementation 'com.snaplii.sdk:credit_sdk_sandbox_pay:0.0.2'        //sandbox环境
     //implementation 'com.snaplii.sdk:credit_sdk_pay:0.0.1'                //生产环境
     // 其它依赖项  
 }
