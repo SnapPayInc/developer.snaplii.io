@@ -132,7 +132,7 @@ android.permission.ACCESS_WIFI_STATE
 SnapliiSdk.initSdk(this, appId, PT, language, "", new OTPCallback() {      
     @Override
     public void getOtp(RetOTPCallback callback) {
-        //mRetOTPCallback = callback;
+         mRetOTPCallback = callback;
          //new Thread(() -> reqOtp()).start();
     }
 });
@@ -278,10 +278,9 @@ public interface PayResultCallback {
 | ret | String | 获取Sdk版本号，例如1.0.0 |
 
 
-六.调用流程
--------
 
-七.测试和发布
+
+六.测试和发布
 -------
 
 在应用发布之前，需要仔细测试集成的支付 SDK 功能，确保支付过程流畅且无错误。确认Snaplii信用付支付功能已经正常工作后，就可以您的应用发布到市场上供用户使用。
