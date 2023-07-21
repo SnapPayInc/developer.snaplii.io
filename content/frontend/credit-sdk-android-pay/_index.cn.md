@@ -200,6 +200,22 @@ public interface OTPCallback() {
     
 
 **void SnapliiSdk.login();**
+```java
+public interface ILoginCallback {
+
+    void onSuccess();
+
+    void onCancel();
+
+}
+```
+
+| 参数        | 类型                | 说明                |
+|-----------|-------------------|-------------------|
+| activity        | Activity            | activity    |
+| ordStr    | String            | 信用付支付order string |
+| callback  | ILoginCallback | 登录结果的回调           |
+
 
 *   支付  
     **void SnapliiSdk.payment(Activity activity, String orderStr, PayResultCallback callback);**
