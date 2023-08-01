@@ -137,7 +137,7 @@ android.permission.ACCESS_WIFI_STATE
 
 
 ```java
-SnapliiSdk.initSdk(this, appId, PT, language, "", new OTPCallback() {      
+SnapliiSdk.initSdk(this, appId, PT, language, customData, new OTPCallback() {      
     @Override
     public void getOtp(RetOTPCallback callback) {
         //mRetOTPCallback = callback;
@@ -212,7 +212,7 @@ SnapliiSdk.payment(activity, orderStr, new PayResultCallback() {
 
 *   初始化SDK  
     商户APP工程中引入依赖后，调用API前，需要先向注册您的AppId，代码如下：  
-    **void SnapliiSdk.initSdk(Application applicationContext, String appId, String lang, String customData, OTPCallback callback);**
+    **void SnapliiSdk.initSdk(Application applicationContext, String appId, String lang, JSONObject customData, OTPCallback callback);**
     
 
 ```java
@@ -229,7 +229,7 @@ public interface OTPCallback() {
 | applicationContext | Application | Application上下文    |
 | appId              | String      | 后台注册的App标识        |
 | lang               | String      | 语言设置zh/en         |
-| coustomData        |String       | 业务自定义参数.        |
+| coustomData        | JSONObject   | 业务自定义参数.        |
 | callback           | OTPCallback | sdk请求app更新otp回调方法 |
 
 | 回调 | 类型                       | 说明                            |
