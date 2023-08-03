@@ -113,10 +113,12 @@ dependencies {
     // 添加下方的内容  
     //implementation 'com.snaplii.sdk:credit_sdk:0.0.42'        //sandbox环境
     //implementation 'com.snaplii.sdk:credit_sdk_release:0.0.17' //生产环境
-    //如果app本身包含google place sdk，可以参考下面exclude该sdk，避免编译错误
-    implementation ("com.snaplii.sdk:credit_sdk_stage:0.0.2") {
-        exclude group: 'com.google.android.libraries.places'
-    }
+
+
+    //如果遇到依赖的sdk编译或者冲突问题，可以参考下面exclude该sdk，避免编译错误
+    //implementation ("com.snaplii.sdk:credit_sdk:0.0.42") {
+    //    exclude group: 'xxx.xxx.xxx'
+    //}
     // 其它依赖项  
 }
 ```
