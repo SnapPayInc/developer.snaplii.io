@@ -1,15 +1,24 @@
-
 ---
 title: "信用付iOS SDK接入文档"
 date: 2023-04-13T15:13:38-04:00
 draft: false
 ---
 # **信用付iOS SDK接入文档**
-## **一.概述 Introduction**
+
+**一.概述 Introduction**
+---------------------
+
 Snaplii信用付SDK
-## **二.接入前准备**
+
+<a href="./demo.zip" target="_blank" style="color:blue">下载demo工程</a>
+
 申请一个业务方标识appId，初始化SDK时传入。
-## **三.名词解释 Glossary**
+
+开发环境: Xcode.
+
+**三.名词解释 Glossary**
+-------------------
+
 Partner: 第三方接入方
 
 SDK: Snaplii信用付sdk 
@@ -24,19 +33,21 @@ AppId: App在Snaplii注册的应用标识ID， 由Snaplii分配给第三方。
 
 App Secret: 第三方接入方应用secret，由Snaplii分配。
 
-OTP: One Time Password。基于时间的TOTP，用app secret转为base32的字符串后作为key。
+OTP: One Time Password。基于时间的，用app secret转为base32的字符串后作为key。
 
 orderStr: 订单order String，其格式类似为
 
     {
-		"outterOrderNo":"a275702d001746caace8b40b25a09df6",  
-		"orderAmount":"0.01",  
-		"personalToken":"9077777766",  
-		"sign":"+LtDS7AFES\/k3ttx8yd46TSMlQM="  
+        "outterOrderNo":"a275702d001746caace8b40b25a09df6",  
+        "orderAmount":"0.01",  
+        "personalToken":"9077777766",  
+        "sign":"+LtDS7AFES\/k3ttx8yd46TSMlQM="  
     }
 其中“sign"为签名，签名方式请参照"信用付SDK服务端接入文档"
 
-## 四. OTP生成算法
+**四. OTP生成算法**
+---------
+
 One time passcode是采用标准的基于时间的TOTP算法，目前设置的有效时间跨度为1分钟。OTP的密钥为app secret + personal token拼接而成。密钥算法为"HmacSHA1"。Python算法可参照：
 
     secret_key= secret + pt
@@ -45,192 +56,182 @@ One time passcode是采用标准的基于时间的TOTP算法，目前设置的�
 其他语言的实现可参照对应的实现文档
 
 
-## **步骤1: partner后端Server准备**
-请参考后端接入文档。
-## **步骤2:添加依赖库**
+**五. 服务端准备工作: partner服务端Server准备**
+---------
 
+请参考服务端接入文档。
 
-通过 CocoaPods 导入
-手动添加
+**六. 客户端接入流程准备工作 (可参考文档中的demo代码工程)**
+---------
 
-`https://github.com/SnapPayInc/cocoapods.git `
-
-下载framework, 导入到工程. 
-
-添加依赖的三方,在podfile 文件添加 
-```
-pod 'AFNetworking'
-pod 'Masonry'
-pod 'MJExtension'
-pod 'MBProgressHUD'
-pod 'YYCache'
-pod 'AcuantiOSSDKV11/AcuantCamera'
-pod 'AcuantiOSSDKV11/AcuantFaceCapture'
-pod 'AcuantiOSSDKV11/AcuantHGLiveness'
-
-post_install do |installer|
-        installer.pods_project.targets.each do |target|
-                if ['AcuantiOSSDKV11', 'Socket.IO-Client-Swift', 'Starscream'].include? http://target.name 
-                        target.build_configurations.each do |config|
-                                config.build_settings['BUILD_LIBRARY_FOR_DISTRIBUTION'] = 'YES'
-                        end
-                end
-        end
-   end
- ```
+**步骤1:添加依赖库**
+---------
 
 通过 CocoaPods 导入
-在podfile文件添加
+在 `podfile` 文件添加
+
 ```
-pod 'SnapliiSDK-iOS'
-pod 'AFNetworking'
-pod 'Masonry'
-pod 'MJExtension'
-pod 'MBProgressHUD'
-pod 'YYCache'
-pod 'AcuantiOSSDKV11/AcuantCamera'
-pod 'AcuantiOSSDKV11/AcuantFaceCapture'
-pod 'AcuantiOSSDKV11/AcuantHGLiveness'
+pod 'SnapliiSDK', :git => 'git@github.com:SnapPayInc/cocoapods.git', :branch => 'master'
 
 post_install do |installer|
-        installer.pods_project.targets.each do |target|
-                if ['AcuantiOSSDKV11', 'Socket.IO-Client-Swift', 'Starscream'].include? http://target.name 
-                        target.build_configurations.each do |config|
-                                config.build_settings['BUILD_LIBRARY_FOR_DISTRIBUTION'] = 'YES'
-                        end
-                end
-        end
-   end
+  installer.pods_project.targets.each do |target|
+    if ['AcuantiOSSDKV11', 'Socket.IO-Client-Swift', 'Starscream'].include? target.name
+      target.build_configurations.each do |config|
+        config.build_settings['BUILD_LIBRARY_FOR_DISTRIBUTION'] = 'YES'
+      end
+    end
+  end
+end
 ```
-## **步骤3:权限配置**
-为正常完成良好的支付流程体验以及支付风控需要,info.plist中的开启以下的权限
+
+**步骤2:权限配置**
+---------
+
+为正常完成良好的支付流程体验以及支付风控需要，`info.plist` 中的开启以下的权限
 
 |Privacy - Camera Usage Description|相机权限|App needs your consent to access the camera to scan the card information. If it is forbidden, it will not be able to obtain the card information
 | :- | :- | :- |
 |Privacy - Location When In Use Usage Description|定位权限|App needs your geographic location to show you local promotions
-## **步骤4：初始化SDK Initialize SDK**
+
+**步骤3：初始化SDK Initialize SDK**
+
+---------
 **建议在App冷启动后调用SDK初始化方法.**
-```objective-c
-__weak typeof(self) weakSelf = self;
-[[SnapliiSDKManager defaultService] initAppId:@"后台注册的App标识" language:@"语言"
- personalToken:@"用户号" customerData:@"" Callback:^(CompletionBlock  _Nonnull responseCallback) {
-    [weakSelf getOtp:^(NSString *result) {
-                responseCallback(result);
-            }];
-    }];
+```swift
+SnapliiSDKManager.defaultService().initAppId("后台注册的App标识", language: "语言", personalToken: "用户号", customData:"自定义用户数据") { [weak self] responseCallback in
+    guard let strongSelf = self else {
+        return
+    }
+    strongSelf.getOtp { result, error in
+        if let opt = result {
+            responseCallback(opt)
+        } else if let error = error {
+            dump(error)
+        }
+    }
+}
 
  
- #pragma mark ---- 获取OTP
- - (void)getOtp:(void(^)(NSString *))block{
+// MARK: 获取OTP
+func getOtp(callback: @escaping (_ result: String?, _ error: String?) -> Void) {
     //网络请求获取OTP
-    if(成功){
-        block(@"otp");
+    if(成功) {
+        callback("otp")
     } else {
-       block(@"请求错误");
+        callback("请求错误")
     }
 }
 ```
-## **步骤5: 获取用户是否开通了Snaplii信用付**
-```objective-c
-[[SnapliiSDKManager defaultService] hasSnapliiCreditCurrentController:@"当前控制器" CheckCreditBlcok:^(BOOL result) {
-    if(result == NO) {
-        NSLog(@"没有信用付");
+
+
+**步骤4: 获取用户是否开通了Snaplii信用付**
+---------
+```swift
+SnapliiSDKManager.defaultService().hasSnapliiCredit { [weak self] success, message in
+    guard let strongSelf = self else { return }
+    if (result == false) {
+        print("没有信用付")
     } else {
-       NSLog(@"有信用付");
+        print("有信用付")
     }
-}];
+}
 ```
-## **步骤6: 开通信用付 Initialize SnapliiCredit user**
+
+**步骤5: 开通信用付 Initialize SnapliiCredit user**
+---------
 开通信用付
-```objective-c
+```swift
 [[SnapliiSDKManager defaultService] initSnapliiCreditCallback:^(NSString * _Nonnull result) {
    //返回成功或失败的错误码
     NSLog(@"%@", result);
 }];
 ```
-## **步骤7: 支付 Start a Payment**
-```objective-c
-[[SnapliiSDKManager defaultService] payment:@"签名" orderAmount:@"订单金额" 
-outterOrderNo:@"订单号" CurrentController:@"当前控制器" callback:^(NSString * _Nonnull result) {
-   //返回成功或失败的错误码
-    NSLog(@"%@",result);
-}];
+**步骤6: 支付 Start a Payment**
+---------
+```swift
+SnapliiSDKManager.defaultService().payment("签名", orderAmount: "订单金额" , outterOrderNo: "订单号", viewController: "当前控制器") { [weak self] success, message in
+    guard let strongSelf = self else { return }
+    //返回成功或失败的错误码
+    dump("Payment result: \(message ?? "success")")
+}
 ```
 
-## **步骤8: 退出**
-```objective-c
-    [[SnapliiSDKManager defaultService] logoutSnapliiSDKInfo];
+**步骤8: 退出**
+---------
+```swift
+    SnapliiSDKManager.defaultService().logout()
 ```
-## **[可选配置接口] configurations**
+**[可选配置接口] configurations**
+---------
 **1.配置语言:**
 
-`[[SnapliiSDK defaultService] setLanguage:@"languag"];`
+`SnapliiSDKManager.defaultService().setLanguage(lang)`
 
 **2.获取sdk版本:**
+---------
 
-`NSString *version = [[SnapliiSDK defaultService] getVersion];`
-## **五.SDK接口说明**
+`let version = SnapliiSDKManager.defaultService().getVersion()`
+
+**五.SDK接口说明**
+---------
+
 - 初始化SDK
   商户APP工程中引入依赖后，调用API前，需要先向注册您的AppId，代码如下：
 
-`[[SnapliiSDK defaultService] initAppId:(NSString *)appId language:(NSString *)language personalToken:(NSString *)personalToken customerData:(NSString *)customerData Callback:(CallbackBlock)callback;`
+```Objective-C
+typedef void(^GetOTPBlock)(NSString *otp);
+typedef void(^OTPCallback)(GetOTPBlock getOTPBlock);
+```
 
 |**参数**|**类型**|**说明**|
 | :-: | :-: | :-: |
-|appId|String|后台注册的App标识|
-|lang|String|语言设置zh/en|
-|callback|OTPCallback|sdk请求app更新otp回调方法|
+|appId|NSString|后台注册的App标识|
+|lang|NSString|语言设置zh/en|
+|personalToken|NSString|Personal Token|
+|coustomData|NSString|业务自定义参数|
+|callback|OTPCallback|app通过callback把otp设置给sdk|
+
 - 查询信用付账号开通信息
 
-`[[SnapliiSDK defaultService] hasSnapliiCreditCurrentController:(UIViewController *)currentController CheckCreditBlcok:(void (^)(BOOL))block;`
+`- (void)hasSnapliiCredit:(HasSnapliiCreditCallback)completion`
 
-|**参数**|**类型**|**说明**|
-| :-: | :-: | :-: |
-|pt|String|personal token|
+```Objective-C
+typedef void (^Callback)(BOOL success, NSString * _Nullable message);
+typedef Callback HasSnapliiCreditCallback;
+```
 
-
-|**返回值**|**类型**|**说明**|
-| :-: | :-: | :-: |
-|return|boolean|<p>true: 已开通</p><p>false: 未开通</p>|
 - 注册开通信用付
 
-`[[SnapliiSDK defaultService] initSnapliiCreditCallback:(void(^)(NSString *))callback;`
+`- (void)initSnapliiCredit:(UIViewController *)viewController
+                 callback:(ApplyResultCallback)callback`
 
-|**参数**|**类型**|**说明**|
-| :-: | :-: | :-: |
-|activity|Activity|activity|
-|pt|String|personal token|
-|otp|String|one time password|
-|callback|ICCallback|回调类|
-|errorCode|int|错误码|
-|errorMsg|String|错误描述|
+```Objective-C
+typedef void (^Callback)(BOOL success, NSString * _Nullable message);
+typedef Callback ApplyResultCallback;
+```
+
+
+| 参数        | 类型                | 说明            |
+|-----------|-------------------|-------------------|
+| _ currentController  | UIViewController | currentController |
+| callback  | ApplyResultCallback | 申请结果的回调 |
+
 - 设置语言
-
-`[[SnapliiSDK defaultService] setLanguage::(NSString *)languag];`
+    
+`- (void)setLanguage:(NSString *)language;`
 
 |**参数**|**类型**|**说明**|
 | :-: | :-: | :-: |
 |value|NSString|zh/en|
+
 - 获取Sdk版本号
 
-`[[SnapliiSDK defaultService] getVersion];`
+`- (NSString *)getVersion;`
 
 |**返回值**|**类型**|**说明**|
 | :-: | :-: | :-: |
-|result|String|获取Sdk版本号，例如1.0.0|
-## **六.错误码示例（最终以Snaplii后端定义为准）**
+|result|String|获取Sdk版本号，例如0.0.1|
 
-|**错误码**|**说明**|
-| :-: | :-: |
-|1001|签名错误|
-|1002|参数错误|
-|1003|app未注册|
-|1004|订单错误|
-|1005|支付失败|
-|1006|风控错误|
-|1007|pt无效|
-|1008|otp无效|
-|1009|信用付账号不存在|
-|1010|session 已过期|
-## **七.测试和发布**
+**六.测试和发布**
+---------
 在应用发布之前，需要仔细测试集成的支付 SDK 功能，确保支付过程流畅且无错误。一旦确信支付功能已经正常工作，就可以将你的应用发布到市场上供用户使用。
