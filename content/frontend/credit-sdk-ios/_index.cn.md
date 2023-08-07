@@ -35,14 +35,14 @@ App Secret: 第三方接入方应用secret，由Snaplii分配。
 
 OTP: One Time Password。基于时间的，用app secret转为base32的字符串后作为key。
 
-orderDict: 订单order 字典数据，其格式类似为
+orderStr: 订单 orderStr，其格式类似为
 
-[
+{
     "outterOrderNo":"a275702d001746caace8b40b25a09df6",  
     "orderAmount":"0.01",  
     "personalToken":"9077777766",  
     "sign":"+LtDS7AFES\/k3ttx8yd46TSMlQM="  
-]
+}
 其中“sign"为签名，签名方式请参照"信用付SDK服务端接入文档"
 
 **四. OTP生成算法**
@@ -150,7 +150,7 @@ SnapliiSDKManager.defaultService().initSnapliiCredit(self)  { [weak self] succes
 **步骤6: 支付 Start a Payment**
 ---------
 ```swift
-SnapliiSDKManager.defaultService().payment(orderDict, viewController: self) { [weak self] success, message in
+SnapliiSDKManager.defaultService().payment(orderStr, viewController: self) { [weak self] success, message in
     guard let strongSelf = self else { return }
     //返回成功或失败的错误码
     dump("Payment result: \(message ?? "success")")
@@ -220,7 +220,7 @@ typedef Callback ApplyResultCallback;
 【注】已开通信用付的账号，如果换了手机设备，也需要先调用 `hasSnapliiCredit`，判断是否开通信用付， 如果返回false，需要调用 `initSnapliiCredit` 方法进入手机号验证页面验证，才能使用 `payment` 接口进行支付
 
 - 支付  
-`- (void)payment:(NSDictionary *)orderDict
+`- (void)payment:(NSString *)orderStr
  viewController:(UIViewController *)viewController
        callback:(PayResultCallback)callback;`
     
