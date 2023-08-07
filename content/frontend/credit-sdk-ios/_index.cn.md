@@ -35,14 +35,14 @@ App Secret: 第三方接入方应用secret，由Snaplii分配。
 
 OTP: One Time Password。基于时间的，用app secret转为base32的字符串后作为key。
 
-orderStr: 订单order String，其格式类似为
+orderDict: 订单order 字典数据，其格式类似为
 
-    {
-        "outterOrderNo":"a275702d001746caace8b40b25a09df6",  
-        "orderAmount":"0.01",  
-        "personalToken":"9077777766",  
-        "sign":"+LtDS7AFES\/k3ttx8yd46TSMlQM="  
-    }
+[
+    "outterOrderNo":"a275702d001746caace8b40b25a09df6",  
+    "orderAmount":"0.01",  
+    "personalToken":"9077777766",  
+    "sign":"+LtDS7AFES\/k3ttx8yd46TSMlQM="  
+]
 其中“sign"为签名，签名方式请参照"信用付SDK服务端接入文档"
 
 **四. OTP生成算法**
@@ -141,15 +141,16 @@ SnapliiSDKManager.defaultService().hasSnapliiCredit { [weak self] success, messa
 ---------
 开通信用付
 ```swift
-[[SnapliiSDKManager defaultService] initSnapliiCreditCallback:^(NSString * _Nonnull result) {
-   //返回成功或失败的错误码
-    NSLog(@"%@", result);
-}];
+SnapliiSDKManager.defaultService().initSnapliiCredit(self)  { [weak self] success, message in
+    //返回成功或失败的错误码
+    guard let strongSelf = self else { return }
+    print(message)
+}
 ```
 **步骤6: 支付 Start a Payment**
 ---------
 ```swift
-SnapliiSDKManager.defaultService().payment("签名", orderAmount: "订单金额" , outterOrderNo: "订单号", viewController: "当前控制器") { [weak self] success, message in
+SnapliiSDKManager.defaultService().payment(orderDict, viewController: self) { [weak self] success, message in
     guard let strongSelf = self else { return }
     //返回成功或失败的错误码
     dump("Payment result: \(message ?? "success")")
@@ -159,7 +160,7 @@ SnapliiSDKManager.defaultService().payment("签名", orderAmount: "订单金额"
 **步骤8: 退出**
 ---------
 ```swift
-    SnapliiSDKManager.defaultService().logout()
+SnapliiSDKManager.defaultService().logout()
 ```
 **[可选配置接口] configurations**
 ---------
@@ -214,6 +215,25 @@ typedef Callback ApplyResultCallback;
 | 参数        | 类型                | 说明            |
 |-----------|-------------------|-------------------|
 | _ currentController  | UIViewController | currentController |
+| callback  | ApplyResultCallback | 申请结果的回调 |
+
+【注】已开通信用付的账号，如果换了手机设备，也需要先调用 `hasSnapliiCredit`，判断是否开通信用付， 如果返回false，需要调用 `initSnapliiCredit` 方法进入手机号验证页面验证，才能使用 `payment` 接口进行支付
+
+- 支付  
+`- (void)payment:(NSDictionary *)orderDict
+ viewController:(UIViewController *)viewController
+       callback:(PayResultCallback)callback;`
+    
+
+```Objective-C
+typedef void (^Callback)(BOOL success, NSString * _Nullable message);
+typedef Callback PayResultCallback;
+```
+
+| 参数        | 类型                | 说明            |
+|-----------|-------------------|-------------------|
+| _ orderDict | NSDictionary | orderDict，具体查看 orderDict 定义 |
+| viewController  | UIViewController | viewController |
 | callback  | ApplyResultCallback | 申请结果的回调 |
 
 - 设置语言
