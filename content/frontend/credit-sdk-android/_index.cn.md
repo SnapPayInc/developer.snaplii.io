@@ -83,7 +83,7 @@ dependencyResolutionManagement {
                     url 'https://maven.pkg.github.com/SnapPayInc/maven/'           
                     credentials {                
                         username = "snappay-jenkins" //snappayit
-                        password = "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"    
+                        password = "*********************************" //请联系Snaplii获取password    
                     }        
             }        
             google()
